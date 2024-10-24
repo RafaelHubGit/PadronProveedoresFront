@@ -1,0 +1,56 @@
+
+
+.hcom{
+    // display: flex;
+    // flex-direction: column;
+    display: grid;
+    // grid-template-rows: 2fr 1fr;
+
+
+    .hcom__container{
+        display: flex;
+        justify-content: space-between;
+
+        background: $headerFooterBg-Color;
+
+        color: $headerFooterFont-Color;
+
+        // padding-top: 10px;
+        padding-left: 30px;
+        padding-right: 30px;
+
+        // box-shadow: 0px 4px 4px -2px rgba(176,176,176,1);
+
+        .hcom__system{
+
+            display: flex;
+
+            .hcom__logo > img{
+                width: 90px;
+            }
+            .hcom__title{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+        }
+        .hcom__people{
+            display: flex;
+            align-items: center;
+
+            .hcom__name{
+                font-size: 20px;
+                font-family: Roboto;
+                padding-right: 10px;
+            }
+        }
+    }
+
+    .hcom__menu-container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        box-shadow: 0px 4px 4px -2px rgba(176,176,176,1);
+    }
+}
