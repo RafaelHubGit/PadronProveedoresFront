@@ -13,3 +13,37 @@ p{
     margin: 0;
     padding: 0;
 }
+
+
+
+
+
+// sirve para poner scroll en el tbody de la tablas
+// Ponerlo en la clase de la table
+// Se puede poner el height en el tbody
+.fixed_header{
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+
+    tbody{
+        display:block;
+        width: 100%;
+        overflow: auto;
+      }
+      
+      thead tr {
+         display: block;
+      }
+      
+      thead {
+        background: black;
+        color:#fff;
+      }
+      
+      th, td {
+        padding: 5px;
+        text-align: left;
+        width: 300px;
+      }
+}
