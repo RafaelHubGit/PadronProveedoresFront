@@ -34,9 +34,9 @@ export const ProveedorTableComponent = () => {
       setCurrentPage( numPage );
       return;
     }
-    getProveedorTypeSense('*', numPage, 10).then(() => {
-      const { inicio, fin } = calcularRangoRegistros(numPage, 10, proveedores.length);
-      console.log({ inicio, fin });
+    getProveedorTypeSense('*', numPage, 10).then(() => { 
+      // const { inicio, fin } = calcularRangoRegistros(numPage, 10, proveedores.length);
+      // console.log({ inicio, fin });
       // scrollToRegistro(inicio);
     });
   }, [numPage, getProveedorTypeSense]);
@@ -54,7 +54,7 @@ export const ProveedorTableComponent = () => {
     if (!tableBody) return;
     const filaEspecifica = document.getElementById(`idRow-${idx}`); // reemplaza con el ID de la fila deseada
     if (!filaEspecifica) return;
-    console.log("DEBE DE MOVERSE AQWUI : ", idx);
+    // console.log("DEBE DE MOVERSE AQWUI : ", idx);
     tableBody.scrollTo(0, filaEspecifica.offsetTop - tableBody.offsetTop);
   }
   

@@ -1,0 +1,47 @@
+
+
+.navigation-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.proveedor-detalle-container{
+
+
+    .header-container{
+        display: flex;
+        justify-content: space-between;
+
+        .proveedor-data{
+            font-size: 18px;
+            .nombre-proveedor{
+                font-size: 25px;
+                font-weight: bold;
+            }
+        }
+
+        .proveedor-data-red-text{
+            color: $red-color;
+        }
+    }
+
+    .proveedor-status{
+
+        .status-toggle{
+            display: flex;
+            justify-content: center;
+
+            /* Color del switch cuando está activado */
+            .custom-switch .form-check-input:checked {
+                background-color: #4caf50; /* Color deseado */
+                border-color: #4caf50; /* Color deseado */
+            }
+
+            /* Color del switch cuando está desactivado */
+            // .custom-switch .form-check-input {
+            //     background-color: #f81124; /* Color deseado */
+            //     border-color: $red-color-light; /* Color deseado */
+            // }
+        }
+    }
+}

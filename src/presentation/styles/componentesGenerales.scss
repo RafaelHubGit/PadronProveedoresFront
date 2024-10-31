@@ -1,0 +1,157 @@
+
+
+
+// CARD
+.cardGeneral-red{
+    border: 2px $red-color solid !important;
+    p{
+      color: $red-color;
+  
+    }
+  }
+  .cardGeneral{
+      border: 1px #ccc solid;
+      border-radius: 20px;
+      border-radius: 20px;
+      min-height: 100px;
+      padding: 15px;
+      position: relative;
+  
+      .text-wrap{
+          position: absolute;
+          top: -8px;
+          left: 30px;
+          background-color: #fff;
+      
+          p {
+            font-size: 15px;
+            margin: 0px 8px;
+            background-color: $backGround-color;
+            color: $secondary-text;
+          }
+      }
+  }
+
+
+  /* MyDatePicker.css */
+
+.date-picker-container{
+
+  border: solid 1px $margin-color;
+  border-radius: 10px;
+  position: relative;
+  width: fit-content;
+  min-width: 157px;
+  margin: 3px 1px;
+  
+  .text{
+    position: absolute;
+    top: -8px;
+    left: 10px;
+    background-color: #fff;
+
+    p {
+      font-size: 12px;
+      margin: 0px 8px;
+      background-color: $backGround-color;
+      color: $secondary-text;
+    }
+  }
+
+  .my-custom-date-picker{
+    
+    color: $primary-text;
+    .react-datetime-picker__wrapper {
+        border: 0px;
+        padding: 1px;
+        background-color: rgba(255, 255, 255, 0) !important; /* Cambia el color de fondo */
+      }
+      
+      .react-datetime-picker__inputGroup{
+        // background-color: red;
+        // margin-right: 10px;
+        margin: 0px 5px;
+      }
+      .react-datetime-picker__inputGroup__input {      
+        border: none !important; /* Elimina el borde */
+        outline: none !important; /* Elimina el borde de enfoque */
+      }
+      
+      .react-datetime-picker__inputGroup__divider {
+        padding: 0 5px !important; /* Añade padding alrededor de los divisores */
+      }
+      
+      .react-datetime-picker__calendar-button.react-datetime-picker__button {
+        display: flex;
+        align-items: center; 
+        justify-content: center; 
+        color: $primary-text;
+      }
+  }
+}
+
+
+
+// SELECT
+// Sirve para que al expandir el select, la info no se pierda debajo de los demas componentes
+.css-1nmdiq5-menu{
+  z-index: 20 !important;
+}
+
+.select-wrap{
+  border: 1px solid $margin-color;
+  border-radius: 5px;
+  padding: 4px;
+  
+}
+
+.css-13cymwt-control{
+  border: 0px !important;
+}
+.css-t3ipsp-control {
+    outline: none;
+    box-shadow: 0px !important;
+    border: 0px !important;
+}
+
+.css-1i837h3-ValueContainer2{
+  height: 50px;
+  overflow: auto !important;
+}
+
+.downText{
+  font-size: 12px;
+  color: $secondary-text;
+  padding: 3px 10px;
+
+  .down-text-wrap{
+    display: flex;
+    flex-direction: column;
+    // justify-content: space-between;
+  }
+}
+
+.css-1p3m7a8-multiValue{
+  width: fit-content;
+}
+
+.select-container{
+  font-size: 12px;
+  position: relative;
+  margin: 5px 0px;
+
+  .text-wrap{
+    position: absolute;
+    top: -8px;
+    left: 13px;
+    background-color: #fff;
+    z-index: 10;
+
+    p{
+      font-size: 12px;
+      margin: 0px 8px;
+      background-color: #fff;
+      color: #999999;
+    }
+  }
+}

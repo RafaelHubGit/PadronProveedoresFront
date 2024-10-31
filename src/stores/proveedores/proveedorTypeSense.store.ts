@@ -16,18 +16,19 @@ interface ProveedorTypeSenseState {
     sizePage: number;
     maxPage: number; //Pagina maxima que puede haber
     loading: boolean;
-    currentPage: number, //Pagina que esta actualmente al navegar en el tbody
+    currentPage: number, // Referencia para ubicar el paginador en la página correcta y mantener el estado de navegación
     // error: string | null;
     proveedoresTS: proveedoresTSAPI;
 
     setNumPage: ( by: number ) => void;
     setCurrentPage: ( page: number ) => void;
-    getProveedorTypeSense: (searchTerm: string, pageNumber: number, pageSize: number) => Promise<void>;
+    getProveedorTypeSense: (searchTerm: string, lastSearchTerm: string, pageNumber: number, pageSize: number) => Promise<void>;
 
 }
 
 const storeProveedorTypeSense: StateCreator<ProveedorTypeSenseState> = ( set, get ) => ({
 
+    searchTerm: '*',
     numPage: 1,
     sizePage: 250,
     maxPage: 0,
@@ -40,11 +41,23 @@ const storeProveedorTypeSense: StateCreator<ProveedorTypeSenseState> = ( set, ge
         mostrados: 0,
     },
 
-    setNumPage: ( by: number ) => set( ( state ) => ({ numPage: state.numPage + by })),
+    setNumPage: ( by: number ) => set( { numPage: by }),
     setCurrentPage: ( page: number ) => set({currentPage: page }),
 
-    getProveedorTypeSense: async (searchTerm, pageNumber, pageSize) => {
-        set({ loading: true });
+    getProveedorTypeSense: async (searchTerm, lastSearchTerm,  pageNumber = 1, pageSize = 250) => {
+        console.log(searchTerm, ' = ', lastSearchTerm);
+        if ( searchTerm !== lastSearchTerm ){
+            console.log("SI LIMPIA EL PEDULLLLLLLLL ");
+        // if ( clean ){
+            set({
+                    proveedoresTS: {
+                        proveedores: [],
+                        total: 0,
+                        mostrados: 0
+                    }
+                }
+            );
+        }
         try {
             const { results, count, returned } = (await ProveedoresAPI.getTypeSenseData(
                 searchTerm,
