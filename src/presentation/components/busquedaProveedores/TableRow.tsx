@@ -4,6 +4,7 @@ import { ProveedorTypeSense } from "../../../interfaces/proveedorTypeSense.inter
 import { useEffect } from "react";
 import { useProveedorTypeSenseStore } from "../../../stores/proveedores/proveedorTypeSense.store";
 import { useNavigate } from "react-router-dom";
+import { ActionButtonsTableComponent } from "../generalComponents/ActionButtonsTableComponent";
 
 
 interface Props {
@@ -60,20 +61,25 @@ export const TableRow = ({ proveedor, idx, sizePage, totalProveedores }: Props) 
         key={idx + 1}
         // ref={ref}
         ref={aplicarRef(idx) ? ref : null} 
-        style={{ cursor: 'pointer' }}
-        className="fadeIn"
+        style={{ cursor: 'pointer', borderBottom: '1px solid #ccc' }}
+        // className="fadeIn d-flex align-items-center"
         onDoubleClick={ () => handleDblClick( proveedor.numeroProveedor ) }
       >
-        <th scope="row"> {idx}- {proveedor.numeroProveedor} </th>
-        <td> {proveedor.rfc} </td>
+        <th scope="row" > {idx}- {proveedor.numeroProveedor} </th>
+        <td > {proveedor.rfc} </td>
         <td> {proveedor.razonSocial} </td>
-        <td>
+        <td >
           {
             proveedor.activo ?
               <span className="badge text-bg-success">Activo</span>
               :
               <span className="badge text-bg-danger">Inactivo</span>
           }
+        </td>
+        <td  >
+          <ActionButtonsTableComponent 
+            view = { false }
+          />
         </td>
       </tr>
     );

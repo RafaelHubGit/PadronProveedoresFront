@@ -1,11 +1,11 @@
-
+@use './variables' as v;
 
 
 // CARD
 .cardGeneral-red{
-    border: 2px $red-color solid !important;
+    border: 2px v.$red-color solid !important;
     p{
-      color: $red-color;
+      color: v.$red-color;
   
     }
   }
@@ -26,8 +26,8 @@
           p {
             font-size: 15px;
             margin: 0px 8px;
-            background-color: $backGround-color;
-            color: $secondary-text;
+            background-color: v.$backGround-color;
+            color: v.$secondary-text;
           }
       }
   }
@@ -37,7 +37,7 @@
 
 .date-picker-container{
 
-  border: solid 1px $margin-color;
+  border: solid 1px v.$margin-color;
   border-radius: 10px;
   position: relative;
   width: fit-content;
@@ -53,14 +53,14 @@
     p {
       font-size: 12px;
       margin: 0px 8px;
-      background-color: $backGround-color;
-      color: $secondary-text;
+      background-color: v.$backGround-color;
+      color: v.$secondary-text;
     }
   }
 
   .my-custom-date-picker{
     
-    color: $primary-text;
+    color: v.$primary-text;
     .react-datetime-picker__wrapper {
         border: 0px;
         padding: 1px;
@@ -85,7 +85,7 @@
         display: flex;
         align-items: center; 
         justify-content: center; 
-        color: $primary-text;
+        color: v.$primary-text;
       }
   }
 }
@@ -99,7 +99,7 @@
 }
 
 .select-wrap{
-  border: 1px solid $margin-color;
+  border: 1px solid v.$margin-color;
   border-radius: 5px;
   padding: 4px;
   
@@ -121,7 +121,7 @@
 
 .downText{
   font-size: 12px;
-  color: $secondary-text;
+  color: v.$secondary-text;
   padding: 3px 10px;
 
   .down-text-wrap{

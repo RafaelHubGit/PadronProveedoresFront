@@ -4,10 +4,11 @@
 import { useEffect, useRef, useState } from "react";
 import { useProveedorTypeSenseStore } from "../../../stores/proveedores/proveedorTypeSense.store";
 import { PaginationComponent } from "../../components/generalComponents/PaginationComponent";
-import { ProveedorTableComponent } from "../../components/busquedaProveedores/ProveedorTableComponent"
+import { ProveedorTableComponent } from "../../components/busquedaProveedores/ProveedorTableComponent";
 
 
-const sizePage = 50;
+
+const sizePage = 250;
 
 export const BusquedaProveedor = () => {
 
@@ -66,8 +67,6 @@ export const BusquedaProveedor = () => {
   return (
     <div className="bp__container">
       <div className="bp__tools d-flex justify-content-end">
-        <button  type="button" className="btn btn-outline-success me-4">Success</button>
-        <button type="button" className="btn btn-outline-danger me-4">Danger</button>
 
         <div
           className="input-group mb-0"

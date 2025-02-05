@@ -1,6 +1,6 @@
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useProveedorTypeSenseStore } from "../../../stores/proveedores/proveedorTypeSense.store";
-import {  useRef } from "react";
+// import {  useRef } from "react";
 import { TableRow } from "./TableRow";
 
 
@@ -12,7 +12,7 @@ export const ProveedorTableComponent = ({ sizePage }: Props) => {
   const { proveedores, total } = useProveedorTypeSenseStore( state => state.proveedoresTS );
   const setNumPage = useProveedorTypeSenseStore( state => state.setNumPage );
   const numPage = useProveedorTypeSenseStore( state => state.numPage );
-  const tableBodyRef = useRef<HTMLTableElement | null>(null);
+  // const tableBodyRef = useRef<HTMLTableElement | null>(null);
   
 
 
@@ -40,16 +40,17 @@ export const ProveedorTableComponent = ({ sizePage }: Props) => {
         <table className="table table-hover align-middle fixed_header">
           <thead className="table-secondary">
             <tr>
-              <th scope="col"># Proveedor</th>
-              <th scope="col">RFC</th>
-              <th scope="col">Razón Social</th>
-              <th scope="col">Activo</th>
+              <th className="" scope="col" ># Proveedor</th>
+              <th className="" scope="col" >RFC</th>
+              <th className="" scope="col" >Razón Social</th>
+              <th className="" scope="col" >Activo</th>
+              <th className="" scope="col" >Acción</th>
             </tr>
           </thead>
           {/* <tbody id="scrollableTbody" className='table-group-divider' style={{ height: `calc(85vh - ${5000}px)`, overflow: 'auto' }}> */}
           <tbody 
             id="scrollableTbody" 
-            ref={tableBodyRef} 
+            
             className='table-group-divider' 
             style={{ height: '157px', overflow: 'auto' }}
           >

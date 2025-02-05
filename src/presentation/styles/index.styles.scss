@@ -1,13 +1,13 @@
 
 
-@import './generalStyles.scss';
-@import './variables.scss';
-@import './fontsStyles.scss';
-@import './headerStyles.scss';
-@import './mainLayout.scss';
+@forward './generalStyles.scss';
+@forward './variables.scss';
+@forward './fontsStyles.scss';
+@forward './headerStyles.scss';
+@forward './mainLayout.scss';
 
 
-@import './busquedaProveedor.scss';
-@import './proveedor.styles.scss';
+@forward './busquedaProveedor.scss';
+@forward './proveedor.styles.scss';
 
-@import './componentesGenerales.scss';
+@forward './componentesGenerales.scss';

@@ -21,29 +21,72 @@ p, h1, h2, h3, h4, h5{
 // sirve para poner scroll en el tbody de la tablas
 // Ponerlo en la clase de la table
 // Se puede poner el height en el tbody
-.fixed_header{
-    width: 100%;
-    table-layout: fixed;
-    border-collapse: collapse;
+.fixed_header {
+  width: 100%;
+  table-layout: fixed; // Fija el ancho de las columnas
+  border-collapse: collapse;
 
-    tbody{
-        display:block;
-        width: 100%;
-        overflow: auto;
-      }
-      
-      thead tr {
-         display: block;
-      }
-      
-      thead {
-        background: black;
-        color:#fff;
-      }
-      
-      th, td {
-        padding: 5px;
-        text-align: left;
-        width: 300px;
-      }
+  thead {
+    background: black;
+    color: #c9c9c9;
+
+    tr {
+      display: table; // Mantiene la estructura de tabla para el encabezado
+      width: 100%;
+    }
+
+    th {
+      position: sticky; // Fija el encabezado al hacer scroll
+      top: 0;
+      background: rgb(255, 255, 255); // Color de fondo del encabezado
+      z-index: 1; // Asegura que el encabezado esté por encima del cuerpo
+      padding: 8px; // Añade padding para mejor apariencia
+      text-align: left; // Alinea el texto a la izquierda
+    }
+  }
+
+  tbody {
+    display: block; // Hace que el cuerpo sea un bloque
+    width: 100%;
+    overflow: auto; // Habilita el desplazamiento vertical
+    max-height: 400px; // Altura máxima del cuerpo
+
+    tr {
+      display: table; // Mantiene la estructura de tabla para las filas
+      width: 100%;
+      table-layout: fixed; // Asegura que las columnas mantengan su ancho
+    }
+
+    td {
+      padding: 8px; // Añade padding para mejor apariencia
+      text-align: left; // Alinea el texto a la izquierda
+    }
+  }
+
+  th, td {
+    width: auto; // Ajusta el ancho automáticamente
+  }
+
+  // Ajusta el ancho de las columnas específicas
+  th:nth-child(1), td:nth-child(1) { width: 110px; } // # Proveedor
+  th:nth-child(2), td:nth-child(2) { width: 170px; } // RFC
+  th:nth-child(3), td:nth-child(3) { width: auto; }  // Razón Social (ocupa el espacio restante)
+  th:nth-child(4), td:nth-child(4) { width: 100px; } // Activo
+  th:nth-child(5), td:nth-child(5) { width: 130px; } // Acción
+}
+
+
+// Scroll Bar
+::-webkit-scrollbar {
+  width: 4px; /* Ancho del scroll */
+  height: 8px; /* Alto del scroll */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #8a8a8a; /* Color del scroll */
+  border-radius: 10px; /* Bordes redondeados */
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Color del fondo del scroll */
 }

@@ -1,4 +1,4 @@
-
+@use './variables' as v;
 
 .ml-container{
     box-sizing: border-box;
@@ -20,9 +20,9 @@
         align-items: center;
         justify-content: center;
 
-        background-color: $headerFooterBg-Color;
+        background-color: v.$headerFooterBg-Color;
 
-        color: $headerFooterFont-Color;
+        color: v.$headerFooterFont-Color;
         font-size: 13px;
     }
 }

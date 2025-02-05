@@ -3,6 +3,7 @@ import { DateTimePickerComponent } from "../generalComponents/DateTimePickerComp
 import { OptionSelect, SelectComponent } from "../generalComponents/SelectComponent"
 import { MultiValue, SingleValue } from "react-select";
 import { ProveedorEsRepseComponent } from "./ProveedorEsRepseComponent";
+import { ProveedorWebComponent } from "./ProveedorWebComponent";
 // import { useState } from "react";
 
 
@@ -78,6 +79,12 @@ export const ProveedorInformacionGeneralComponent = () => {
           <div className="mb-2 ">
             <label htmlFor="exampleFormControlInput1" className="form-label">Página Web</label>
             <input type="text" className="form-control" id="exampleFormControlInput1" placeholder="www.ejemplo.com.mx" />
+
+
+            <ProveedorWebComponent />
+
+
+
           </div>
           <div className="mb-2">
             <label htmlFor="exampleFormControlTextarea1" className="form-label">Observciones</label>

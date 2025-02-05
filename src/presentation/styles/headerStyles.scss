@@ -1,4 +1,4 @@
-
+@use './variables' as v;
 
 .hcom{
     // display: flex;
@@ -11,9 +11,9 @@
         display: flex;
         justify-content: space-between;
 
-        background: $headerFooterBg-Color;
+        background: v.$headerFooterBg-Color;
 
-        color: $headerFooterFont-Color;
+        color: v.$headerFooterFont-Color;
 
         // padding-top: 10px;
         padding-left: 30px;
