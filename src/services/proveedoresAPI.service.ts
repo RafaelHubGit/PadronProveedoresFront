@@ -8,11 +8,12 @@ export class ProveedoresAPI {
   static getTypeSenseData = async (searchTerm: string, pageNumber: number, pageSize: number): Promise<unknown> => {
     try{
       const response = await fetch(`${baseUrl}/TypeSense?searchTerm=${searchTerm}&pageNumber=${pageNumber}&pageSize=${pageSize}`);
+
       
       if (!response.ok) {
         throw new Error(`Error fetching data: ${response.statusText}`);
       }
-  
+      
       const data = await response.json();
       return data;
     } catch ( e ) {

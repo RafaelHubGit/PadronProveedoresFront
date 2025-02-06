@@ -8,7 +8,7 @@ import { ProveedorTableComponent } from "../../components/busquedaProveedores/Pr
 
 
 
-const sizePage = 250;
+const sizePage = 50;
 
 export const BusquedaProveedor = () => {
 

@@ -33,6 +33,13 @@ export const TableRow = ({ proveedor, idx, sizePage, totalProveedores }: Props) 
       if (inView) { //FIXME Corregir por que los registros que se agregan con el idx menor al sizePage no se muestran aqui
         console.log(`La fila con id ${idx} está visible`);
 
+        const rect = ref.current?.getBoundingClientRect();
+        console.log("RECT  : ", rect);
+        const direction = rect?.top < 0 ? 'up' : 'down'; // Si el top es negativo, viene de arriba, si es positivo, viene de abajo
+        console.log(`La fila con id ${idx} está entrando desde: ${direction}`);
+
+
+
         // Calcula la pagina y la settea para que el componente de paginacion de actualice
         const pagina =  calculaPagina( idx, sizePage );
         if ( currentPage !== pagina ){ 
