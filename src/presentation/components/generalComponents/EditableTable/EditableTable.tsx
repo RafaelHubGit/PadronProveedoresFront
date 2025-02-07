@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Table, Popconfirm, Form, Button, Input } from "antd";
 import { EditableCell } from "./EditableCell";
 import { EditableTableProps } from "../../../../interfaces/EditableTable.interface";
@@ -13,9 +13,16 @@ export const EditableTable = <T extends { key: React.Key }>({
   validationRules,
 }: EditableTableProps<T>) => {
   const [form] = Form.useForm();
-  const [data, setData] = useState<T[]>(dataSource);
+  const [data, setData] = useState<T[]>(dataSource ?? []);
   const [editingKey, setEditingKey] = useState<React.Key | "">("");
   const [searchText, setSearchText] = useState("");
+
+
+  useEffect(() => {
+    console.log("DATA SOURCE : ", dataSource);
+    setData(dataSource ?? []);
+  }, [dataSource])
+  
 
 
   const isEditing = (record: T) => record.key === editingKey;
@@ -95,6 +102,7 @@ export const EditableTable = <T extends { key: React.Key }>({
       record,
       dataIndex: col.dataIndex,
       editing: isEditing(record),
+      editable: col.editable !== false,
     }),
   })) as ColumnType<T>[]
   

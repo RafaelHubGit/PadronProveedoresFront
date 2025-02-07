@@ -2,6 +2,7 @@ import { DatePicker, Input, Form } from "antd";
 
 interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
   editing: boolean;
+  editable?: boolean;
   dataIndex: string;
   children: React.ReactNode;
   inputType?: "text" | "number" | "date";
@@ -9,6 +10,7 @@ interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
 
 export const EditableCell: React.FC<EditableCellProps> = ({
   editing,
+  editable = true, 
   dataIndex,
   children,
   inputType,
@@ -23,6 +25,11 @@ export const EditableCell: React.FC<EditableCellProps> = ({
     ) : (
       <Input />
     );
+
+  // Si no está en modo de edición o no es editable, mostramos solo el valor
+  if (!editing || !editable) {
+    return <td {...restProps}>{children}</td>;
+  }
 
   return (
     <td {...restProps}>
