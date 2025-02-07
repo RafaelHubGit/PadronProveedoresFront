@@ -12,7 +12,8 @@ const calculaPagina = ( numeroElemento: number, sizePage: number) => {
     return page === 0 ? 1 : page;
 }
 
-
+const removeAccents = (str: string) => //TODO mover a un archivo de helpers
+    str.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Elimina acentos
   
   
-  export { calcularRangoRegistros, calculaPagina }
+  export { calcularRangoRegistros, calculaPagina, removeAccents }

@@ -1,5 +1,6 @@
 
 import logo from '../../../assets/logo.png';
+import { MenuComponent } from './MenuComponent';
 
 export const HeaderComponent = () => {
   return (
@@ -26,7 +27,7 @@ export const HeaderComponent = () => {
             </div>
         </div>
         <div className="hcom__menu-container">
-            menuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu
+            <MenuComponent/>
         </div>
     </div>
   )

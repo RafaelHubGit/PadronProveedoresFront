@@ -6,6 +6,7 @@ import { Proveedor } from "../presentation/pages/proveedores/Proveedor";
 import { ProveedorLayout } from "../presentation/layouts/ProveedorLayout";
 import { ProveedorActivoLayout } from "../presentation/components/proveedorComponents/ProveedorActivoLayout";
 import { ProveedorRefrendosComponent } from "../presentation/components/proveedorComponents/ProveedorRefrendosComponent";
+import { CatalogosPage } from "../presentation/pages/Catalogos/CatalogosPage";
 
 // Definir las rutas del detalle de proveedor
 const proveedorDetalleRoutes = [
@@ -48,6 +49,10 @@ const inicioRoutes = [
     element: <Proveedor />,
     children: proveedorDetalleRoutes,
   },
+  {
+    path: 'catalogos',
+    element: <CatalogosPage />,
+  }
 ];
 
 // Configuración final del router
