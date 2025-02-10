@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Table, Popconfirm, Form, Button, Input } from "antd";
+import { Table, Popconfirm, Form, Button, Input, ConfigProvider } from "antd";
+import esES from "antd/es/locale/es_ES";
 import { EditableCell } from "./EditableCell";
 import { EditableTableProps } from "../../../../interfaces/EditableTable.interface";
 import { removeAccents } from "../../../../helpers";
@@ -107,6 +108,8 @@ export const EditableTable = <T extends { key: React.Key }>({
 
   const mergedColumns = columns?.map((col) => ({
     ...col,
+    width: col.width || undefined,
+    sorter: col.sortable ? ((a, b) => String(a[col.dataIndex]).localeCompare(String(b[col.dataIndex]))) : undefined,
     onCell: (record: T): React.TdHTMLAttributes<HTMLElement> => ({
       record,
       dataIndex: col.dataIndex,
@@ -190,66 +193,69 @@ export const EditableTable = <T extends { key: React.Key }>({
         />
       </div>
 
-      <Form form={form} component={false}>
-        <Table
-          components={{ body: { cell: EditableCell } }}
-          bordered
-          dataSource={filteredData}
-          columns={[
-            ...(mergedColumns || []),
-            {
-              title: "Acciones",
-              key: "actions",
-              align: "center",
-              width: 150,
-              render: (_: any, record: T) => {
-                const editable = isEditing(record);
-                return editable ? (
-                  <>
-                    <Button onClick={() => {
-                        
-                          save(record.key)
-                        
-                      }} type="link">
-                      Guardar
-                    </Button>
-                    <Popconfirm title="¿Cancelar cambios?" onConfirm={cancel}>
-                      <Button type="link">Cancelar</Button>
-                    </Popconfirm>
-                  </>
-                ) : (
-                  <>
-                    <Button
-                      disabled={editingKey !== ""}
-                      onClick={() => edit(record)}
-                      type="link"
-                    >
-                      <span className="material-symbols-outlined">
-                        edit_square
-                      </span>
-                    </Button>
-                    <Popconfirm
-                      title="¿Seguro que quieres eliminar esta fila?"
-                      onConfirm={() => handleDelete(record.key)}
-                    >
-                      <Button type="link" danger>
+      <ConfigProvider locale={esES}>
+        <Form form={form} component={false}>
+          <Table
+            components={{ body: { cell: EditableCell } }}
+            bordered
+            dataSource={filteredData}
+            columns={[
+              ...(mergedColumns || []),
+              {
+                title: "Acciones",
+                key: "actions",
+                align: "center",
+                width: "150px",
+                render: (_: any, record: T) => {
+                  const editable = isEditing(record);
+                  return editable ? (
+                    <>
+                      <Button onClick={() => {
+                          
+                            save(record.key)
+                          
+                        }} type="link">
+                        Guardar
+                      </Button>
+                      <Popconfirm title="¿Cancelar cambios?" onConfirm={cancel}>
+                        <Button type="link">Cancelar</Button>
+                      </Popconfirm>
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        disabled={editingKey !== ""}
+                        onClick={() => edit(record)}
+                        type="link"
+                      >
                         <span className="material-symbols-outlined">
-                          delete
+                          edit_square
                         </span>
                       </Button>
-                    </Popconfirm>
-                  </>
-                );
+                      <Popconfirm
+                        title="¿Seguro que quieres eliminar esta fila?"
+                        onConfirm={() => handleDelete(record.key)}
+                      >
+                        <Button type="link" danger>
+                          <span className="material-symbols-outlined">
+                            delete
+                          </span>
+                        </Button>
+                      </Popconfirm>
+                    </>
+                  );
+                },
               },
-            },
-          ]}
-          rowClassName="editable-row"
-          pagination={{ 
-            pageSize: 5,
-            showTotal: (total, range) => `Mostrando ${range[0]}-${range[1]} de ${total}`,
-          }}
-        />
-      </Form>
+            ]}
+            rowClassName="editable-row"
+            pagination={{ 
+              pageSize: 20,
+              showTotal: (total, range) => `Mostrando ${range[0]}-${range[1]} de ${total}`,
+            }}
+            scroll={{ y: "40vh" }}
+          />
+        </Form>
+      </ConfigProvider>
     </div>
 
   );

@@ -79,6 +79,7 @@ export const GiroComercialCatalogoComponent = () => {
           inputType: "string",
           hidden: false,
           editable: true,
+          sortable: true,
           validation: {
             required: true,
             type: "string",
@@ -143,6 +144,7 @@ export const GiroComercialCatalogoComponent = () => {
           ),
           editable: false,
           hidden: false,
+          width: "100px",
           validation: {
             required: false,
             type: "boolean",

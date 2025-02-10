@@ -48,6 +48,17 @@ export interface IColumnConfig {
      * Si es `true`, el valor de la celda será editable, de lo contrario no será editable.
      */
     editable?: boolean;
+
+    /**
+     * Agregar el ancho de la columna13
+     */
+    width?: string;
+
+    /**
+     * Para ordenar por el campo seleccionado
+     * Si es true, se mostrará el icono de ordenamiento en el encabezado
+     */
+    sortable?: boolean;
 }
   
 /**
@@ -98,6 +109,8 @@ export const getColumnsAndValidationRules = (config: ITableConfig) => {
       hidden: column.hidden !== undefined ? column.hidden : true,
       render: column.render,
       editable: column.editable !== undefined ? column.editable : false, // Valor por defecto false
+      width: column.width,
+      sortable: column.sortable,
     };
   });
 
