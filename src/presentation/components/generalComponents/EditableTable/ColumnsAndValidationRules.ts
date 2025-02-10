@@ -105,7 +105,7 @@ export const getColumnsAndValidationRules = (config: ITableConfig) => {
     const column = config[key];
     acc[key] = {
       required: column.validation.required, 
-      type: column.validation.type === "date" ? "date" : "string", // Ajusta la lógica para otros tipos si es necesario
+      type: column.validation.type ,
       label: column.validation.label,
     };
     return acc;
