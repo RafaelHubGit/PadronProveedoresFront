@@ -59,7 +59,7 @@ export const EditableTable = <T extends { key: React.Key }>({
          // Convertir fechas a formato string
         Object.keys(validationRules).forEach((field) => {
           if (validationRules[field].type === "date" && formValues[field]) {
-            formValues[field] = dayjs(formValues[field]).format("YYYY-MM-DD");
+            formValues[field] = dayjs(formValues[field]).format("DD-MM-YYYY");
           }
         });
 
