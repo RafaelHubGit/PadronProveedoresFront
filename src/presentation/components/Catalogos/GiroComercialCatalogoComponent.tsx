@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Tag } from 'antd';
+import { DatePicker, Tag } from 'antd';
 import { EditableTable } from "../generalComponents/EditableTable/EditableTable";
 import { ColumnValidation } from "../../../interfaces/EditableTable.interface";
 import { useCatalogosStore } from "../../../stores/catalogos/catalogos.store";
@@ -44,7 +44,7 @@ export const GiroComercialCatalogoComponent = () => {
         { title: "Id Giro Comercial", dataIndex: "idGiroComercial", key: "idGiroComercial", hidden: true },
         { title: "Giro Comercial", dataIndex: "giroComercial", key: "giroComercial" },
         { title: "Id Usuario Alta", dataIndex: "idUsuarioAlta", key: "idUsuarioAlta", hidden: true },
-        { title: "Fecha Alta", dataIndex: "fechaAlta", key: "fechaAlta", hidden: true },
+        { title: "Fecha Alta", dataIndex: "fechaAlta", key: "fechaAlta", inputType: "date", hidden: true  },
         { title: "Id Usuario Modificación", dataIndex: "idUsuarioModificacion", key: "idUsuarioModificacion", hidden: true },
         { title: "Fecha Modificación", dataIndex: "fechaModificacion", key: "fechaModificacion", hidden: true },
         { 
@@ -61,13 +61,13 @@ export const GiroComercialCatalogoComponent = () => {
     ];
       
     const validationRules: ColumnValidation = {
-        IdGiroComercial: { required: true, type: "number", label: "Id Giro Comercial" },
-        GiroComercial: { required: true, type: "string", label: "Giro Comercial" },
-        IdUsuarioAlta: { required: true, type: "number", label: "Id Usuario Alta" },
-        FechaAlta: { required: true, type: "date", label: "Fecha Alta" },
-        IdUsuarioModificacion: { required: false, type: "number", label: "Id Usuario Modificación" },
-        FechaModificacion: { required: false, type: "date", label: "Fecha Modificación" },
-        Activo: { required: true, type: "boolean", label: "Activo" },
+        idGiroComercial: { required: false, type: "number", label: "Id Giro Comercial" },
+        giroComercial: { required: true, type: "string", label: "Giro Comercial" },
+        idUsuarioAlta: { required: false, type: "number", label: "Id Usuario Alta" },
+        fechaAlta: { required: false, type: "date", label: "Fecha Alta" },
+        idUsuarioModificacion: { required: false, type: "number", label: "Id Usuario Modificación" },
+        fechaModificacion: { required: false, type: "date", label: "Fecha Modificación" },
+        activo: { required: false, type: "boolean", label: "Activo" },
     };
 
   return (

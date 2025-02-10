@@ -15,11 +15,11 @@ export const EditableTable = <T extends { key: React.Key }>({
   const [form] = Form.useForm();
   const [data, setData] = useState<T[]>(dataSource ?? []);
   const [editingKey, setEditingKey] = useState<React.Key | "">("");
+  const [isNewRow, setIsNewRow] = useState(false);
   const [searchText, setSearchText] = useState("");
 
 
   useEffect(() => {
-    console.log("DATA SOURCE : ", dataSource);
     setData(dataSource ?? []);
   }, [dataSource])
   
@@ -34,10 +34,15 @@ export const EditableTable = <T extends { key: React.Key }>({
 
   // const cancel = () => setEditingKey("");
   const cancel = () => {
-    // Si la fila no tiene datos (es vacía), la eliminamos
-    const newData = data.filter(item => item.key !== editingKey);
-    setData(newData); // Actualizamos el estado para reflejar la eliminación
-    setEditingKey(""); // Reseteamos la fila en edición
+   
+
+    if (isNewRow) {
+      setData(prevData => prevData.filter(item => item.key !== editingKey)); // Elimina la fila recién agregada
+    }
+
+    // Restablece el estado de edición
+    setEditingKey("");
+    setIsNewRow(false);
   };
   
 
@@ -53,8 +58,8 @@ export const EditableTable = <T extends { key: React.Key }>({
 
          // Convertir fechas a formato string
         Object.keys(validationRules).forEach((field) => {
-          if (validationRules[field].type === "date" && row[field]) {
-            row[field] = dayjs(row[field]).format("YYYY-MM-DD");
+          if (validationRules[field].type === "date" && formValues[field]) {
+            formValues[field] = dayjs(formValues[field]).format("YYYY-MM-DD");
           }
         });
 
@@ -73,6 +78,8 @@ export const EditableTable = <T extends { key: React.Key }>({
   const handleAdd = () => {
     form.resetFields(); // Limpia los dalos del formulario
 
+    const newKey = Date.now(); // Genera una clave única antes de usarla
+
     const newData = Object.keys(validationRules).reduce((acc, key) => {
       const fieldValidation = validationRules[key];
   
@@ -80,7 +87,7 @@ export const EditableTable = <T extends { key: React.Key }>({
       if (fieldValidation.type === "number") {
         acc[key as keyof T] = 0; // Inicializar como 0 en vez de ""
       } else if (fieldValidation.type === "boolean") {
-        acc[key as keyof T] = false; // Booleano por defecto en false
+        acc[key as keyof T] = true; // Booleano por defecto en false
       } else {
         acc[key as keyof T] = ""; // Para strings, mantenemos ""
       }
@@ -88,10 +95,12 @@ export const EditableTable = <T extends { key: React.Key }>({
       return acc;
     }, {} as T);
   
-    newData.key = Date.now(); // Asigna un key único
+    newData.key = newKey; // Asigna el key antes de actualizar el estado
   
-    setData([newData, ...data]); // Agrega la nueva fila al inicio de la tabla
-    setEditingKey(newData.key); // Establece esta fila como la fila editable
+    // setData([newData, ...data]); // Agrega la nueva fila al inicio de la tabla
+    setData((prevData) => [{ ...newData }, ...prevData]);
+    setEditingKey(newKey); // Establece esta fila como la fila editable
+    setIsNewRow(true);
   };
   
 
@@ -101,6 +110,7 @@ export const EditableTable = <T extends { key: React.Key }>({
     onCell: (record: T): React.TdHTMLAttributes<HTMLElement> => ({
       record,
       dataIndex: col.dataIndex,
+      inputType: col.inputType,
       editing: isEditing(record),
       editable: col.editable !== false,
     }),
@@ -113,7 +123,12 @@ export const EditableTable = <T extends { key: React.Key }>({
     const errors: string[] = [];
   
     for (const key in validationRules) {
+
+      
       const fieldValidation = validationRules[key];
+
+      if ( !fieldValidation.required ) continue;
+
       const value = dataValues[key as keyof T]; // Obtiene el valor de los campos del formulario
 
       const fieldName = fieldValidation.label || key;
