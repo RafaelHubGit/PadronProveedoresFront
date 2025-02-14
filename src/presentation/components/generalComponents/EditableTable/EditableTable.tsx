@@ -19,11 +19,35 @@ export const EditableTable = <T extends { key: React.Key; activo?: boolean }>({
   const [editingKey, setEditingKey] = useState<React.Key | "">("");
   const [isNewRow, setIsNewRow] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const [loadingSearch, setLoadingSearch] = useState(false)
+  const [filteredData, setFilteredData] = useState(data);
+
+  // const [debouncedSearch, setDebouncedSearch] = useState("");
+
+  // const filteredData = data.filter(item => 
+  //   Object.values(item).some(value =>
+  //     removeAccents(String(value).toLowerCase()).includes(removeAccents(debouncedSearch.toLowerCase()))
+  //   )
+  // );
 
 
   useEffect(() => {
     setData(dataSource ?? []);
   }, [dataSource])
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setLoadingSearch(true);
+      setFilteredData(data.filter(item => 
+        Object.values(item).some(value =>
+          removeAccents(String(value).toLowerCase()).includes(removeAccents(searchText.toLowerCase()))
+        )
+      ))
+      setLoadingSearch(false);
+    }, 500);
+  
+    return () => clearTimeout(timeoutId);
+  }, [searchText, data]);
   
 
 
@@ -175,11 +199,7 @@ export const EditableTable = <T extends { key: React.Key; activo?: boolean }>({
     onSave(updatedData);
   };
 
-  const filteredData = data.filter(item => 
-    Object.values(item).some(value =>
-      removeAccents(String(value).toLowerCase()).includes(removeAccents(searchText.toLowerCase()))
-    )
-  );
+  
   
 
   return (
@@ -206,7 +226,7 @@ export const EditableTable = <T extends { key: React.Key; activo?: boolean }>({
           <Table
             components={{ body: { cell: EditableCell } }}
             bordered
-            loading = { loading }
+            loading = { loading || loadingSearch }
             dataSource={filteredData}
             columns={[
               ...(mergedColumns || []),

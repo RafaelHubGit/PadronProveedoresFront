@@ -5,7 +5,7 @@ import { IGiroComercial } from "../../interfaces/Catalogos.interface";
 import { giroComercialInit } from "./initialState";
 
 
-
+const catalogosAPI = new CatalogosAPI("CatGiroComercial");
 
 interface CatalogosState {
 
@@ -21,7 +21,7 @@ const storeCatalogos: StateCreator<CatalogosState> = ( set ) => ({
 
   getAllGirosComerciales: async () => {
     try {
-      const result: IGiroComercial[] | null = await CatalogosAPI.getGirosComercialesApi() as IGiroComercial[] | null;
+      const result: IGiroComercial[] | null = await catalogosAPI.getAll() as IGiroComercial[] | null;
 
       if (Array.isArray(result) && result.length > 0) {
         set({ giroComercial: result });
