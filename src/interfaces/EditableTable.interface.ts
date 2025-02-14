@@ -16,4 +16,5 @@ export interface EditableTableProps<T> {
     dataSource: T[];
     onSave: (data: T[]) => void;
     validationRules: ColumnValidation; //Se pasan las reglas de validacion
+    loading?: boolean;
 }

@@ -9,28 +9,29 @@ import { giroComercialInit } from "./initialState";
 
 interface CatalogosState {
 
-    giroComercial: IGiroComercial;
+    giroComercial: IGiroComercial[];
     getAllGirosComerciales: () => Promise<void>;
     
 }
 
 
-const storeCatalogos: StateCreator<CatalogosState> = ( set, get ) => ({
+const storeCatalogos: StateCreator<CatalogosState> = ( set ) => ({
 
   giroComercial: giroComercialInit,
 
   getAllGirosComerciales: async () => {
     try {
-      const result: IGiroComercial | null = await CatalogosAPI.getGirosComercialesApi() as IGiroComercial | null;
+      const result: IGiroComercial[] | null = await CatalogosAPI.getGirosComercialesApi() as IGiroComercial[] | null;
 
-      if (result) {
+      if (Array.isArray(result) && result.length > 0) {
         set({ giroComercial: result });
       } else {
-        console.error("No se encontró el giroComercial");
-        set({ giroComercial: { ...giroComercialInit } });
+        console.warn("No se encontraron giros comerciales, usando estado inicial.");
+        set({ giroComercial: giroComercialInit });
       }
     } catch ( error ) {
       console.error("Error al obtener el proveedor: ", error);
+      set({ giroComercial: giroComercialInit });
     }
   },
     

@@ -8,7 +8,7 @@ export const GiroComercialTableConfig: ITableConfig = {
       title: "Id Giro Comercial",
       dataIndex: "idGiroComercial",
       key: "idGiroComercial",
-      hidden: true,
+      hidden: false,
       validation: {
         required: false,
         type: "number",

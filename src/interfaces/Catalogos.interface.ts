@@ -1,11 +1,11 @@
 
 
 export interface IGiroComercial {
-    IdGiroComercial: number;
-    GiroComercial: string;
-    IdUsuarioAlta: number;
-    FechaAlta: Date;
-    IdUsuarioModificacion: number | null;
-    FechaModificacion: Date | null;
-    Activo: boolean;
+    idGiroComercial: number;
+    giroComercial: string;
+    idUsuarioAlta: number;
+    fechaAlta: Date;
+    idUsuarioModificacion: number | null;
+    fechaModificacion: Date | null;
+    activo: boolean;
 }

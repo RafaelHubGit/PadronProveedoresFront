@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Popconfirm, Form, Button, Input, ConfigProvider } from "antd";
+import { Table, Popconfirm, Form, Button, Input, ConfigProvider, Tooltip } from "antd";
 import esES from "antd/es/locale/es_ES";
 import { EditableCell } from "./EditableCell";
 import { EditableTableProps } from "../../../../interfaces/EditableTable.interface";
@@ -7,11 +7,12 @@ import { removeAccents } from "../../../../helpers";
 import dayjs from "dayjs";
 
 
-export const EditableTable = <T extends { key: React.Key }>({
+export const EditableTable = <T extends { key: React.Key; activo?: boolean }>({
   columns,
   dataSource,
   onSave,
   validationRules,
+  loading
 }: EditableTableProps<T>) => {
   const [form] = Form.useForm();
   const [data, setData] = useState<T[]>(dataSource ?? []);
@@ -167,6 +168,13 @@ export const EditableTable = <T extends { key: React.Key }>({
     onSave(newData);
   };
 
+  const handleReactive = (key: React.Key) => {
+    const updatedData = data.map((item) =>
+      item.key === key ? { ...item, activo: !item.activo } : item
+    );
+    onSave(updatedData);
+  };
+
   const filteredData = data.filter(item => 
     Object.values(item).some(value =>
       removeAccents(String(value).toLowerCase()).includes(removeAccents(searchText.toLowerCase()))
@@ -198,6 +206,7 @@ export const EditableTable = <T extends { key: React.Key }>({
           <Table
             components={{ body: { cell: EditableCell } }}
             bordered
+            loading = { loading }
             dataSource={filteredData}
             columns={[
               ...(mergedColumns || []),
@@ -223,25 +232,44 @@ export const EditableTable = <T extends { key: React.Key }>({
                     </>
                   ) : (
                     <>
-                      <Button
-                        disabled={editingKey !== ""}
-                        onClick={() => edit(record)}
-                        type="link"
-                      >
-                        <span className="material-symbols-outlined">
-                          edit_square
-                        </span>
-                      </Button>
-                      <Popconfirm
-                        title="¿Seguro que quieres eliminar esta fila?"
-                        onConfirm={() => handleDelete(record.key)}
-                      >
-                        <Button type="link" danger>
+                      <Tooltip title="Editar elemento">
+                        <Button
+                          disabled={editingKey !== ""}
+                          onClick={() => edit(record)}
+                          type="link"
+                        >
                           <span className="material-symbols-outlined">
-                            delete
+                            edit_square
                           </span>
                         </Button>
-                      </Popconfirm>
+                      </Tooltip>
+                      {record["activo"] ? (
+                        <Popconfirm
+                          title="¿Seguro que quieres eliminar esta fila?"
+                          onConfirm={() => handleDelete(record.key)}
+                        >
+                          <Tooltip title="Eliminar elemento">
+                            <Button type="link" danger>
+                              <span className="material-symbols-outlined">
+                                delete
+                              </span>
+                            </Button>
+                          </Tooltip>
+                        </Popconfirm>
+                      ) : (
+                        <Popconfirm
+                          title="¿Seguro que quieres restaurar este elemento?"
+                          onConfirm={() => handleReactive(record.key)}
+                        >
+                          <Tooltip title="Reactivar elemento">
+                            <Button type="link">
+                              <span className="material-symbols-outlined">
+                                refresh
+                              </span>
+                            </Button>
+                          </Tooltip>
+                        </Popconfirm>
+                      )}
                     </>
                   );
                 },
