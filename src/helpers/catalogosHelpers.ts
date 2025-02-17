@@ -89,6 +89,12 @@ interface APIResponse {
                 setData( [...originalData] ); //Si se cancela, se regresa la informacion como estaba
               }
             });
+          } else {
+            toast({
+              titulo: "",
+              mensaje: "Información eliminada correctamente",
+            });
+            setData( newData );
           }
         } catch (error) {
           console.error("Error eliminando item:", error);

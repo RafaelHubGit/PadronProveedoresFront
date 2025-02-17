@@ -280,7 +280,11 @@ export const EditableTable = <T extends { key: React.Key; activo?: boolean }>({
                           onConfirm={() => handleDelete(record.key)}
                         >
                           <Tooltip title="Eliminar elemento">
-                            <Button type="link" danger>
+                            <Button 
+                              type="link" 
+                              danger
+                              disabled={editingKey !== ""}
+                            >
                               <span className="material-symbols-outlined">
                                 delete
                               </span>
@@ -293,7 +297,10 @@ export const EditableTable = <T extends { key: React.Key; activo?: boolean }>({
                           onConfirm={() => handleReactive(record.key)}
                         >
                           <Tooltip title="Reactivar elemento">
-                            <Button type="link">
+                            <Button 
+                              type="link"
+                              disabled={editingKey !== ""}
+                            >
                               <span className="material-symbols-outlined">
                                 refresh
                               </span>
@@ -309,7 +316,10 @@ export const EditableTable = <T extends { key: React.Key; activo?: boolean }>({
             // rowClassName="editable-row"
             rowClassName={(record) => (isEditing(record) ? "editable-row editing" : "editable-row")}
             pagination={{ 
-              pageSize: 20,
+              // pageSize: 20,
+              defaultPageSize: 20,
+              pageSizeOptions: ['10', '20', '50', '100'],
+              showSizeChanger: true,
               showTotal: (total, range) => `Mostrando ${range[0]}-${range[1]} de ${total}`,
             }}
             scroll={{ y: "40vh" }}

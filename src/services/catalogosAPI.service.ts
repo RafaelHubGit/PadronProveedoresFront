@@ -45,8 +45,7 @@ export class CatalogosAPI<T> {
   async create<T>(data: T): Promise<T | null> {
     try {
       console.log("LA DATA : ", data);
-      // const response = await fetch(`${baseUrl}/${this.endpoint}`, {
-      const response = await fetch(`https://localhost:7015/api/CatGiroComercial`, {
+      const response = await fetch(`${baseUrl}/${this.endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

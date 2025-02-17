@@ -3,10 +3,11 @@ import { EditableTable } from "../generalComponents/EditableTable/EditableTable"
 import { useCatalogosStore } from "../../../stores/catalogos/catalogos.store";
 import { ICatEstatusProveedorBloqueado } from "../../../interfaces/Catalogos.interface";
 import { getColumnsAndValidationRules } from "../generalComponents/EditableTable/ColumnsAndValidationRules";
-import { GiroComercialTableConfig } from "./GiroComercialTableConfig";
+
 import { CatalogosAPI } from "../../../services/catalogosAPI.service";
 import { alert, toast } from "../../../helpers/uiHelpers";
 import { handleTableChangeHelper } from "../../../helpers/catalogosHelpers";
+import { catEstatusProveedorBloqueadoTableConfig } from "./EstatusProveedorBloqueadoTableConfig";
 
 export const EstatusProveedorBloqueadoComponent = () => {
 
@@ -36,7 +37,7 @@ export const EstatusProveedorBloqueadoComponent = () => {
         await handleTableChangeHelper({
             originalData: data,
             newData,
-            apiService: new CatalogosAPI<ICatEstatusProveedorBloqueado>("CatGiroComercial"),
+            apiService: new CatalogosAPI<ICatEstatusProveedorBloqueado>("CatEstatusProveedorBloqueado"),
             setData,
             keyField: "idEstatusProveedorBloqueado",
             onChange: async (action, item, apiService) => {
@@ -44,10 +45,13 @@ export const EstatusProveedorBloqueadoComponent = () => {
                     if (action === "update") {
                         const updated = await apiService.update(item.idEstatusProveedorBloqueado, item);
                         if (updated) toast({ titulo: "", mensaje: "Información actualizada correctamente" });
+                        return updated;
                     }
                     if (action === "create") {
                         const created = await apiService.create(item);
                         if (created) toast({ titulo: "", mensaje: "Información agregada correctamente" });
+                        created.key = created.idEstatusProveedorBloqueado;
+                        return created;
                     }
                     if (action === "delete") {
                         return await apiService.delete(item.idEstatusProveedorBloqueado);
@@ -59,13 +63,15 @@ export const EstatusProveedorBloqueadoComponent = () => {
                         icono: "error",
                         mensaje: "Se produjo un error al procesar la información."
                     })
+                } finally {
+                    setLoading( false );
                 }
             }
         });
         setLoading( false );
     };
 
-    const tableConfig = GiroComercialTableConfig;
+    const tableConfig = catEstatusProveedorBloqueadoTableConfig;
     const { columns, validationRules } = getColumnsAndValidationRules(tableConfig);
 
   return (
