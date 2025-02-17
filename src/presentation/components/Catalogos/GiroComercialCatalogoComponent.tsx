@@ -27,9 +27,6 @@ export const GiroComercialCatalogoComponent = () => {
         } else {
             setData([]);
         }
-        
-        
-
     }, [girosComerciales]);
 
     const handleTableChange = async (newData: IGiroComercial[]) => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./styles.css";
 import { Table, Popconfirm, Form, Button, Input, ConfigProvider, Tooltip } from "antd";
 import esES from "antd/es/locale/es_ES";
@@ -20,39 +20,17 @@ export const EditableTable = <T extends { key: React.Key; activo?: boolean }>({
   const [editingKey, setEditingKey] = useState<React.Key | "">("");
   const [isNewRow, setIsNewRow] = useState(false);
   const [searchText, setSearchText] = useState("");
-  const [loadingSearch, setLoadingSearch] = useState(false)
-  const [loadingLocal, setLoadingLocal] = useState(loading)
-  const [filteredData, setFilteredData] = useState(data);
+  const [loadingLocal, setLoadingLocal] = useState(false);
   const isEditing = (record: T) => record.key === editingKey;  
-  // const [debouncedSearch, setDebouncedSearch] = useState("");
 
-  // const filteredData = data.filter(item => 
-  //   Object.values(item).some(value =>
-  //     removeAccents(String(value).toLowerCase()).includes(removeAccents(debouncedSearch.toLowerCase()))
-  //   )
-  // );
-
+  const searchTimeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
     setData(dataSource ?? []);
   }, [dataSource])
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setLoadingSearch(true);
-      setFilteredData(data.filter(item => 
-        Object.values(item).some(value =>
-          removeAccents(String(value).toLowerCase()).includes(removeAccents(searchText.toLowerCase()))
-        )
-      ))
-      setLoadingSearch(false);
-    }, 500);
-  
-    return () => clearTimeout(timeoutId);
-  }, [searchText, data]);
-
-  useEffect(() => {
-    setLoadingLocal( loading );
+    setLoadingLocal( loading ?? true );
   }, [loading])
 
   
@@ -206,6 +184,29 @@ export const EditableTable = <T extends { key: React.Key; activo?: boolean }>({
     onSave(updatedData);
   };
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLoadingLocal( true );
+    setSearchText(e.target.value); // Actualizamos el texto de búsqueda solo si han pasado 500ms sin escribir
+
+    clearTimeout(searchTimeoutRef.current ?? undefined);
+
+    searchTimeoutRef.current = setTimeout(() => {
+      console.log("hace la busqeuda");
+
+      if ( e.target.value == "" ){
+        setData( dataSource );
+        setLoadingLocal(false);
+        return;
+      }
+
+      setData(data.filter(item => 
+        Object.values(item).some(value =>
+          removeAccents(String(value).toLowerCase()).includes(removeAccents(searchText.toLowerCase()))
+        )
+      ))
+      setLoadingLocal(false);
+    }, 500);
+  };
   
   
 
@@ -216,7 +217,8 @@ export const EditableTable = <T extends { key: React.Key; activo?: boolean }>({
           onClick={handleAdd}
           type="primary"
           style={{ marginBottom: 16 }}
-          disabled = { editingKey ? true : false }
+          // disabled = { editingKey ? true : false }
+          disabled={!!editingKey || loading}
         >
           Nuevo
         </Button>
@@ -224,7 +226,8 @@ export const EditableTable = <T extends { key: React.Key; activo?: boolean }>({
         <Input
           placeholder="Buscar..."
           value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
+          // onChange={(e) => setSearchText(e.target.value)}
+          onChange={ handleSearchChange }
           style={{ marginBottom: 16, width: "300px" }}
         />
       </div>
@@ -234,8 +237,8 @@ export const EditableTable = <T extends { key: React.Key; activo?: boolean }>({
           <Table
             components={{ body: { cell: EditableCell } }}
             bordered
-            loading = { loadingLocal || loadingSearch }
-            dataSource={filteredData}
+            loading = { loadingLocal }
+            dataSource={data}
             columns={[
               ...(mergedColumns || []),
               {
