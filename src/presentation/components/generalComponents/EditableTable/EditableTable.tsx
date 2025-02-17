@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./styles.css";
 import { Table, Popconfirm, Form, Button, Input, ConfigProvider, Tooltip } from "antd";
 import esES from "antd/es/locale/es_ES";
 import { EditableCell } from "./EditableCell";
@@ -20,8 +21,9 @@ export const EditableTable = <T extends { key: React.Key; activo?: boolean }>({
   const [isNewRow, setIsNewRow] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [loadingSearch, setLoadingSearch] = useState(false)
+  const [loadingLocal, setLoadingLocal] = useState(loading)
   const [filteredData, setFilteredData] = useState(data);
-
+  const isEditing = (record: T) => record.key === editingKey;  
   // const [debouncedSearch, setDebouncedSearch] = useState("");
 
   // const filteredData = data.filter(item => 
@@ -48,10 +50,13 @@ export const EditableTable = <T extends { key: React.Key; activo?: boolean }>({
   
     return () => clearTimeout(timeoutId);
   }, [searchText, data]);
+
+  useEffect(() => {
+    setLoadingLocal( loading );
+  }, [loading])
+
   
 
-
-  const isEditing = (record: T) => record.key === editingKey;
 
   const edit = (record: T) => {
     form.setFieldsValue(record);
@@ -114,6 +119,8 @@ export const EditableTable = <T extends { key: React.Key; activo?: boolean }>({
         acc[key as keyof T] = 0; // Inicializar como 0 en vez de ""
       } else if (fieldValidation.type === "boolean") {
         acc[key as keyof T] = true; // Booleano por defecto en false
+      } else if (fieldValidation.type === "date") {
+        acc[key as keyof T] = new Date();
       } else {
         acc[key as keyof T] = ""; // Para strings, mantenemos ""
       }
@@ -209,6 +216,7 @@ export const EditableTable = <T extends { key: React.Key; activo?: boolean }>({
           onClick={handleAdd}
           type="primary"
           style={{ marginBottom: 16 }}
+          disabled = { editingKey ? true : false }
         >
           Nuevo
         </Button>
@@ -226,7 +234,7 @@ export const EditableTable = <T extends { key: React.Key; activo?: boolean }>({
           <Table
             components={{ body: { cell: EditableCell } }}
             bordered
-            loading = { loading || loadingSearch }
+            loading = { loadingLocal || loadingSearch }
             dataSource={filteredData}
             columns={[
               ...(mergedColumns || []),
@@ -241,7 +249,7 @@ export const EditableTable = <T extends { key: React.Key; activo?: boolean }>({
                     <>
                       <Button onClick={() => {
                           
-                            save(record.key)
+                          save(record.key)
                           
                         }} type="link">
                         Guardar
@@ -295,7 +303,8 @@ export const EditableTable = <T extends { key: React.Key; activo?: boolean }>({
                 },
               },
             ]}
-            rowClassName="editable-row"
+            // rowClassName="editable-row"
+            rowClassName={(record) => (isEditing(record) ? "editable-row editing" : "editable-row")}
             pagination={{ 
               pageSize: 20,
               showTotal: (total, range) => `Mostrando ${range[0]}-${range[1]} de ${total}`,

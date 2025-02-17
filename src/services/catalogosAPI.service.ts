@@ -44,11 +44,14 @@ export class CatalogosAPI<T> {
 
   async create<T>(data: T): Promise<T | null> {
     try {
-      const response = await fetch(`${baseUrl}/${this.endpoint}`, {
+      console.log("LA DATA : ", data);
+      // const response = await fetch(`${baseUrl}/${this.endpoint}`, {
+      const response = await fetch(`https://localhost:7015/api/CatGiroComercial`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
+      console.log("EL REPONSE API : ", response);
       const result = await this.handleResponse(response);
       return result.success ? result.data : null;
     } catch (e) {
@@ -65,6 +68,7 @@ export class CatalogosAPI<T> {
         body: JSON.stringify(data),
       });
       const result = await this.handleResponse(response);
+      console.log("REPONSE API ; ", result);
       return result.success ? result.data : null;
     } catch (e) {
       console.error("Error:", e);

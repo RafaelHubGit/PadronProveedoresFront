@@ -10,7 +10,7 @@
 //     Activo: false,
 // };
 
-import { IGiroComercial } from "../../interfaces/Catalogos.interface";
+import { IGiroComercial, ICatEstatusProveedorBloqueado } from "../../interfaces/Catalogos.interface";
 
 export const giroComercialInit: IGiroComercial[] = [
     {
@@ -23,3 +23,16 @@ export const giroComercialInit: IGiroComercial[] = [
         Activo: true,
     }
 ]; // ← Debe ser un array vacío por defecto
+
+
+export const catEstatusProveedorBloqueadoInit: ICatEstatusProveedorBloqueado[] = [
+    {
+      idEstatusProveedorBloqueado: 0,
+      estatus: '',
+      idUsuarioAlta: 0,
+      fechaAlta: new Date(),
+      idUsuarioModificacion: null,
+      fechaModificacion: null,
+      activo: true,
+    }
+];

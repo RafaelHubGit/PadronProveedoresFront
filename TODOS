@@ -1,0 +1,15 @@
+
+
+
+El boton de nuevo se desactive cuando esta en la edicion para que no agregue mas sin querer 
+Al agregar uno nuevo, sombrear el que se esta editando para que el usuario se de cuenta que tiene el campo para agregar la infromacion
+
+revisar por que no esta agregando nuevos 
+
+al eliminar, cuando pregunta si deseas inactivarlo y al dar en cancelar, quita el item de la lista
+
+igual al editar sombrear el campo para dar a entender al usuario que se puede editar
+
+
+revisar por que no aparece en la api lo del catalogo
+

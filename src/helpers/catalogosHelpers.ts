@@ -24,6 +24,7 @@ interface APIResponse {
     keyField,
     onChange,
   }: HandleTableChangeParams<T>) => {
+
     // 1️⃣ Identificar eliminaciones
     const deletedItem = originalData.find((item) => !newData.some((d) => d[keyField] === item[keyField]));
 
@@ -61,8 +62,6 @@ interface APIResponse {
                     "idUsuario",
                     0
                 );
-
-                console.log('softDeleteResp : ', softDeleteResp);
     
                 if (!softDeleteResp.success) {
                   alert({
@@ -86,6 +85,8 @@ interface APIResponse {
     
                   setData(updatedData);
                 }
+              } else {
+                setData( [...originalData] ); //Si se cancela, se regresa la informacion como estaba
               }
             });
           }
@@ -95,13 +96,33 @@ interface APIResponse {
     }
 
     if (newItem) {
-        await onChange('create', newItem, apiService);
+      const response = await onChange('create', newItem, apiService);
+      if ( !response ){
+        alert({
+          titulo: "Error",
+          mensaje: "Error al crear el elemento",
+          icono: "error"
+        });
+        return;
+      }
+      const updatedData = newData.map((item) => // Busca el elemento y setea la informacion que regresa de la api en la tabla
+        item[keyField] === newItem[keyField] ? { ...item, ...response } : item
+      );
+      setData( updatedData );
+      return response;
     }
 
     if (updatedItem) {
-        await onChange('update', updatedItem, apiService);
+        const response = await onChange('update', updatedItem, apiService);
+        if ( !response ){
+          alert({
+            titulo: "Error",
+            mensaje: "No se pudo realizar la actualización.",
+            icono: "error"
+          });
+          return;
+        }
+        setData(newData);
+        return response;
     }
-
-    // Actualizar estado de la tabla
-    setData(newData);
   };

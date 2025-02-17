@@ -1,60 +1,56 @@
 import { useEffect, useState } from "react";
 import { EditableTable } from "../generalComponents/EditableTable/EditableTable";
 import { useCatalogosStore } from "../../../stores/catalogos/catalogos.store";
-import { IGiroComercial } from "../../../interfaces/Catalogos.interface";
+import { ICatEstatusProveedorBloqueado } from "../../../interfaces/Catalogos.interface";
 import { getColumnsAndValidationRules } from "../generalComponents/EditableTable/ColumnsAndValidationRules";
 import { GiroComercialTableConfig } from "./GiroComercialTableConfig";
 import { CatalogosAPI } from "../../../services/catalogosAPI.service";
 import { alert, toast } from "../../../helpers/uiHelpers";
 import { handleTableChangeHelper } from "../../../helpers/catalogosHelpers";
 
+export const EstatusProveedorBloqueadoComponent = () => {
 
-export const GiroComercialCatalogoComponent = () => {
-
-    const getGirosComerciales = useCatalogosStore( state => state.getAllGirosComerciales );
-    const girosComerciales = useCatalogosStore(( state ) => state.girosComerciales );
-    const loadingCatalogo = useCatalogosStore( state => state.loading.girosComerciales );
-    const [loading, setLoading] = useState( false );
-    const [data, setData] = useState<IGiroComercial[]>([]);
+    const [loading, setLoading] = useState( true );
+    const getEPB = useCatalogosStore( state => state.getAllEstatusProveedorBloqueado );
+    const epb = useCatalogosStore(( state ) => state.estatusProveedorBloqueado );
+    const [data, setData] = useState<ICatEstatusProveedorBloqueado[]>([]);
 
     useEffect(() => {
-        getGirosComerciales(); // Esperar a que termine la carga
+        getEPB(); // Esperar a que termine la carga
+        setLoading( false );
     }, []);
 
     useEffect(() => {
-        if (Array.isArray(girosComerciales)) {
-            setData(girosComerciales); // Aquí lo asignamos correctamente
+        if (Array.isArray(epb)) {
+            setData(epb); // Aquí lo asignamos correctamente
         } else {
             setData([]);
         }
         
         
 
-    }, [girosComerciales]);
+    }, [epb]);
 
-    const handleTableChange = async (newData: IGiroComercial[]) => {
+    const handleTableChange = async (newData: ICatEstatusProveedorBloqueado[]) => {
         setLoading( true );
         await handleTableChangeHelper({
             originalData: data,
             newData,
-            apiService: new CatalogosAPI<IGiroComercial>("CatGiroComercial"),
+            apiService: new CatalogosAPI<ICatEstatusProveedorBloqueado>("CatGiroComercial"),
             setData,
-            keyField: "idGiroComercial",
+            keyField: "idEstatusProveedorBloqueado",
             onChange: async (action, item, apiService) => {
                 try {
                     if (action === "update") {
-                        const updated = await apiService.update(item.idGiroComercial, item);
+                        const updated = await apiService.update(item.idEstatusProveedorBloqueado, item);
                         if (updated) toast({ titulo: "", mensaje: "Información actualizada correctamente" });
-                        return updated;
                     }
                     if (action === "create") {
                         const created = await apiService.create(item);
                         if (created) toast({ titulo: "", mensaje: "Información agregada correctamente" });
-                        created.key = created.idGiroComercial;
-                        return created;
                     }
                     if (action === "delete") {
-                        return await apiService.delete(item.idGiroComercial);
+                        return await apiService.delete(item.idEstatusProveedorBloqueado);
                     }
                 } catch (error) {
                     console.log(error);
@@ -63,8 +59,6 @@ export const GiroComercialCatalogoComponent = () => {
                         icono: "error",
                         mensaje: "Se produjo un error al procesar la información."
                     })
-                } finally {
-                    setLoading( false );
                 }
             }
         });
@@ -79,13 +73,13 @@ export const GiroComercialCatalogoComponent = () => {
         <EditableTable 
             dataSource={(data || []).map(item => ({
                 ...item,
-                key: item?.idGiroComercial ? item.idGiroComercial.toString() : Math.random().toString(), 
+                key: item?.idEstatusProveedorBloqueado ? item.idEstatusProveedorBloqueado.toString() : Math.random().toString(), 
               }))}
             columns={columns} 
             // onSave={setData} 
             onSave={handleTableChange}
             validationRules={validationRules}
-            loading={ loading || loadingCatalogo }
+            loading={ loading }
         />
     </div>
   )
