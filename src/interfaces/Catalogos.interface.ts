@@ -19,3 +19,53 @@ export interface ICatEstatusProveedorBloqueado {
     fechaModificacion: Date | null;
     activo: boolean;
   }
+
+  export interface ICatEstratificacion {
+    idEstratificacion: number;
+    estratificacion: string;
+    idUsuarioAlta: number;
+    fechaAlta: Date;
+    idUsuarioModificacion: number | null;
+    fechaModificacion: Date | null;
+    activo: boolean;
+}
+
+export interface ICatGenero {
+    idGenero: number;
+    genero: string;
+    idUsuarioAlta: number;
+    fechaAlta: Date;
+    idUsuarioModificacion: number | null;
+    fechaModificacion: Date | null;
+    activo: boolean;
+}
+
+export interface ICatTipoContacto {
+    idTipoContacto: number;
+    tipoContacto: string;
+    idUsuarioAlta: number;
+    fechaAlta: Date;
+    idUsuarioModificacion: number | null;
+    fechaModificacion: Date | null;
+    activo: boolean;
+  }
+
+export interface ICatTipoEntidad {
+    idTipoEntidad: number;
+    tipoEntidad: string;
+    idUsuarioAlta: number;
+    fechaAlta: Date;
+    idUsuarioModificacion: number | null;
+    fechaModificacion: Date | null;
+    activo: boolean;
+}
+
+export interface ICatTipoProveedor {
+    idTipoProveedor: number;
+    tipoProveedor: string;
+    idUsuarioAlta: number;
+    fechaAlta: Date;
+    idUsuarioModificacion: number | null;
+    fechaModificacion: Date | null;
+    activo: boolean;
+}

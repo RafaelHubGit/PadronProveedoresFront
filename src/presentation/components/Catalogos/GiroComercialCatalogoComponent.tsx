@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { EditableTable } from "../generalComponents/EditableTable/EditableTable";
 import { useCatalogosStore } from "../../../stores/catalogos/catalogos.store";
-import { IGiroComercial } from "../../../interfaces/Catalogos.interface";
+
 import { getColumnsAndValidationRules } from "../generalComponents/EditableTable/ColumnsAndValidationRules";
 import { GiroComercialTableConfig } from "./GiroComercialTableConfig";
 import { CatalogosAPI } from "../../../services/catalogosAPI.service";
 import { alert, toast } from "../../../helpers/uiHelpers";
 import { handleTableChangeHelper } from "../../../helpers/catalogosHelpers";
+import { IGiroComercial } from "../../../interfaces/Catalogos.interface";
 
 
 export const GiroComercialCatalogoComponent = () => {
