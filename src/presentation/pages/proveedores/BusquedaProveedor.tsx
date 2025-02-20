@@ -1,4 +1,4 @@
-import { Button, Input, Popconfirm, Table, Tooltip } from "antd";
+import { Button, Input, Popconfirm, Table, Tag, Tooltip } from "antd";
 import { useProveedorTypeSenseStore } from "../../../stores/proveedores/proveedorTypeSense.store";
 import { useEffect, useState } from "react";
 
@@ -122,6 +122,11 @@ export const BusquedaProveedor = () => {
       title: 'Estatus',
       dataIndex: 'activo',
       key: 'activo',
+      render: (activo: boolean) => (
+        <Tag color={activo ? 'green' : 'red'}>
+          {activo ? 'Activo' : 'Inactivo'}
+        </Tag>
+      ),
     },
   ];
 
