@@ -1,14 +1,10 @@
 import { create, StateCreator } from "zustand";
 import { devtools } from "zustand/middleware";
 import { ProveedoresAPI } from "../../services/proveedoresAPI.service";
-import { ProveedorTypeSense } from "../../interfaces/proveedorTypeSense.interface";
+import { IHighlights, IProveedoresTS, IProveedoresTypeSense, IProveedoresTypeSenseApi } from "../../interfaces/proveedorTypeSense.interface";
 
 
-interface proveedoresTSAPI {
-    proveedores: ProveedorTypeSense[];
-    total: number,
-    mostrados: number
-}
+
 
 interface ProveedorTypeSenseState {
 
@@ -18,7 +14,7 @@ interface ProveedorTypeSenseState {
     loading: boolean;
     currentPage: number, // Referencia para ubicar el paginador en la página correcta y mantener el estado de navegación
     // error: string | null;
-    proveedoresTS: proveedoresTSAPI;
+    proveedoresTS: IProveedoresTS;
 
     setNumPage: ( by: number ) => void;
     setCurrentPage: ( page: number ) => void;
@@ -38,15 +34,15 @@ const storeProveedorTypeSense: StateCreator<ProveedorTypeSenseState> = ( set, ge
     proveedoresTS: {
         proveedores: [],
         total: 0,
-        mostrados: 0,
+        mostrados: 0
     },
 
     setNumPage: ( by: number ) => set( { numPage: by }),
     setCurrentPage: ( page: number ) => set({currentPage: page }),
 
     getProveedorTypeSense: async (searchTerm, lastSearchTerm,  pageNumber = 1, pageSize = 250) => {
-        console.log(searchTerm, ' = ', lastSearchTerm);
-        if ( searchTerm !== lastSearchTerm ){
+        set({ loading: true });
+        // if ( searchTerm !== lastSearchTerm ){
             console.log("SI LIMPIA EL PEDULLLLLLLLL ");
         // if ( clean ){
             set({
@@ -57,27 +53,43 @@ const storeProveedorTypeSense: StateCreator<ProveedorTypeSenseState> = ( set, ge
                     }
                 }
             );
-        }
+        // }
         try {
-            const { results, count, returned } = (await ProveedoresAPI.getTypeSenseData(
+            // const { results, count, returned } = (await ProveedoresAPI.getTypeSenseData(
+            //     searchTerm,
+            //     pageNumber,
+            //     pageSize
+            //   )) as { results: ProveedorTypeSense[]; count: number; returned: number };
+
+            const result = await ProveedoresAPI.getTypeSenseData(
                 searchTerm,
                 pageNumber,
                 pageSize
-              )) as { results: ProveedorTypeSense[]; count: number; returned: number };
+              ) as { results: IProveedoresTypeSenseApi[], count: number, returned: number }; 
 
-              const proveedores = [...get().proveedoresTS.proveedores, ...results];
+              const proveedores: IProveedoresTypeSense[] = [
+                ...get().proveedoresTS.proveedores,
+                ...result.results.map((res: IProveedoresTypeSenseApi): IProveedoresTypeSense => ({
+                    proveedor: {
+                        ...res.Document, // Asegura que coincida con `IProveedorTypeSense`
+                    },
+                    highlights: (res.Highlights || []).map(highlight => ({
+                        ...highlight,
+                        snippets: Array.isArray(highlight.snippets) ? highlight.snippets : [highlight.snippet] 
+                    })) as IHighlights[] // Asegura que `highlights` sea del tipo correcto
+                }))
+            ];
+
+            console.log("PROVEEEEEEDOR : ", proveedores);
 
             set({
-                    proveedoresTS: {
-                        // proveedores: [...get().proveedoresTS.proveedores, ...results],
-                        proveedores: proveedores,
-                        total: count,
-                        // mostrados: get().proveedoresTS.proveedores.length
-                        mostrados: returned
-                    },
-                    maxPage: Math.ceil(get().proveedoresTS.proveedores.length / pageSize)
-                }
-            );
+                proveedoresTS: {
+                  proveedores: proveedores,
+                  total: result.count,  // Aseguramos que 'count' es la cantidad total de proveedores
+                  mostrados: result.returned,  // Aseguramos que 'returned' es la cantidad mostrada en esta página
+                },
+                maxPage: Math.ceil(result.count / pageSize),  // Calculamos el total de páginas
+              });
         } catch ( e ) {
             console.log(`ERROR ${ e }`);
         } finally {

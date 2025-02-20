@@ -7,8 +7,15 @@ export class ProveedoresAPI {
 
   static getTypeSenseData = async (searchTerm: string, pageNumber: number, pageSize: number): Promise<unknown> => {
     try{
-      const response = await fetch(`${baseUrl}/TypeSense?searchTerm=${searchTerm}&pageNumber=${pageNumber}&pageSize=${pageSize}`);
 
+      let url = "";
+      if ( !searchTerm ){
+        url = `${baseUrl}/TypeSense?searchTerm=*&pageNumber=${pageNumber}&pageSize=${pageSize}`;
+      } else {
+        url = `${baseUrl}/TypeSense?searchTerm=${searchTerm}&pageNumber=${pageNumber}&pageSize=${pageSize}`;
+      }
+      
+      const response = await fetch(url);
       
       if (!response.ok) {
         throw new Error(`Error fetching data: ${response.statusText}`);

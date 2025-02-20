@@ -1,21 +1,18 @@
 import { Tabs, Dropdown, Menu } from "antd";
 import { DownOutlined, AppstoreOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
 const menuConfig = [
-  { key: "1", label: "Inicio", icon: <AppstoreOutlined />, type: "tab" },
-  { key: "2", label: "Servicios", icon: <AppstoreOutlined />, type: "tab" },
+  { key: "1", label: "Búsqueda de Proveedor", icon: <AppstoreOutlined />, type: "tab", link: "buscarProveedor" },
   {
     key: "3",
-    label: "Más Opciones",
+    label: "Administración",
     icon: <AppstoreOutlined />,
     type: "dropdown",
     submenu: [
-      { key: "3-1", label: "Opción 1" },
-      { key: "3-2", label: "Opción 2" },
-      { key: "3-3", label: "Opción 3" },
+      { key: "3-1", label: "Catálogos", link: "catalogos" },
     ],
-  },
-  { key: "4", label: "Contacto", icon: <AppstoreOutlined />, type: "tab" },
+  }  
 ];
 
 export const MenuComponent = () => {
@@ -30,7 +27,13 @@ export const MenuComponent = () => {
                     const menu = (
                     <Menu>
                         {item.submenu?.map((sub) => (
-                        <Menu.Item key={sub.key}>{sub.label}</Menu.Item>
+                          <Menu.Item key={sub.key}>
+                            {
+                              sub.link ? 
+                                <Link to={sub?.link}>{sub.label}</Link> 
+                                : sub.label
+                            }
+                          </Menu.Item>
                         ))}
                     </Menu>
                     );
@@ -49,10 +52,14 @@ export const MenuComponent = () => {
 
                 return {
                     key: item.key,
-                    label: (
-                    <span>
+                    label: item.link ? (
+                      <Link to={item.link}>
                         {item.icon} {item.label}
-                    </span>
+                      </Link>
+                    ) : (
+                      <span>
+                        {item.icon} {item.label}
+                      </span>
                     ),
                 };
             })}
