@@ -1,4 +1,4 @@
-import { Button, Input, Popconfirm, Table, Tag, Tooltip } from "antd";
+import { Button, Descriptions, Input, Popconfirm, Table, Tag, Tooltip } from "antd";
 import { useProveedorTypeSenseStore } from "../../../stores/proveedores/proveedorTypeSense.store";
 import { useEffect, useState } from "react";
 
@@ -155,56 +155,61 @@ export const BusquedaProveedor = () => {
       // console.log("puto resultado :  ", highlights);
       return (
         <div>
-          <h6>Coincidencias en la búsqueda</h6>
-          <p>Palabras coincidentes: { highlights.map( el => el.matched_tokens).join(', ') ?? 'No disponible' }</p>
-          <p>Coincidencias encontradas: { 
-              highlights.length > 0 
-                  ? highlights.map((el, index) => {
-                    return (
-                      <div key={index}>
-                          {Array.isArray(el.snippets)
-                            ? el.snippets
-                                .filter((snippet, snippetIndex, arr) => snippetIndex === 0 || snippet !== arr[snippetIndex - 1]) // Evita elementos repetidos
-                                .map((snippet, snippetIndex) => (
-                                  <span 
-                                    key={`${index}-${snippetIndex}`}
-                                    dangerouslySetInnerHTML={{ __html: decodeEntities(snippet) }} 
-                                  />
-                                ))
-                            : (
-                                <span 
-                                  key={index}
-                                  dangerouslySetInnerHTML={{ __html: decodeEntities(el.snippets) }} 
-                                />
-                            )
-                          }
-                      </div>
-                  )}) 
-                  : 'No disponible'
-            }
-          </p>
 
-          <h6>Resumen del Proveedor</h6>
-          <h6>Información General</h6>
-          <p>Razón Social: {proveedor?.razonSocial ?? 'No disponible'}</p>
-          <p>RFC: {proveedor?.rfc ?? 'No disponible'}</p>
-          <p>Dirección: {proveedor?.Direccion ?? 'No disponible'}</p>
-      
-          <h6>Historial de Refrendo</h6>
-          <p>Total de refrendos: {proveedor?.numeroRefrendo?.length}</p>
-          <p>Número de Refrendos: {proveedor?.numeroRefrendo?.join(', ') ?? 'No disponible'}</p>
-      
-          <h6>Historial de Documentos</h6>
-          <p>Total de documentos: {proveedor?.documentos?.length}</p>
-          <p>Documentos: {proveedor?.documentos?.join(', ') ?? 'No disponible'}</p>
-      
-          <h6>Representantes y Contactos</h6>
-          <p>Representantes: {proveedor?.representante?.join(', ') ?? 'No disponible'}</p>
-          <p>Contactos: {proveedor?.contactos?.join(', ') ?? 'No disponible'}</p>
-      
-          <h6>Otros Datos</h6>
-          <p>Tipo de Proveedor: {proveedor?.tipoProveedor?.join(', ') ?? 'No disponible'}</p>
-          <p>Giro Comercial: {proveedor?.girosComerciales?.join(', ') ?? 'No disponible'}</p>
+          {highlights.length > 0 && (
+            <Descriptions title="Coincidencias en la búsqueda">
+              <Descriptions.Item label="Palabras coincidentes:">{ highlights.map( el => el.matched_tokens).join(', ') ?? 'No disponible' }</Descriptions.Item>
+              <Descriptions.Item label="Coincidencias encontradas">
+                { 
+                  highlights.length > 0 
+                      ? highlights.map((el, index) => {
+                        return (
+                          <div key={index}>
+                              {Array.isArray(el.snippets)
+                                ? el.snippets
+                                    .filter((snippet, snippetIndex, arr) => snippetIndex === 0 || snippet !== arr[snippetIndex - 1]) // Evita elementos repetidos
+                                    .map((snippet, snippetIndex) => (
+                                      <span 
+                                        key={`${index}-${snippetIndex}`}
+                                        dangerouslySetInnerHTML={{ __html: decodeEntities(snippet) }} 
+                                      />
+                                    ))
+                                : (
+                                    <span 
+                                      key={index}
+                                      dangerouslySetInnerHTML={{ __html: decodeEntities(el.snippets) }} 
+                                    />
+                                )
+                              }
+                          </div>
+                      )}) 
+                      : 'No disponible'
+                }
+              </Descriptions.Item>
+            </Descriptions>
+          )}
+
+          <Descriptions title="Resumen del Proveedor" >
+            <Descriptions.Item label="Razón Social">{proveedor?.razonSocial ?? 'No disponible'}</Descriptions.Item>
+            <Descriptions.Item label="RFC">{proveedor?.rfc ?? 'No disponible'}</Descriptions.Item>
+            <Descriptions.Item label="Dirección">{proveedor?.Direccion ?? 'No disponible'}</Descriptions.Item>
+          </Descriptions>
+          <Descriptions title="Historial de Refrendo" >
+            <Descriptions.Item label="Total de refrendos">{proveedor?.numeroRefrendo?.length}</Descriptions.Item>
+            <Descriptions.Item label="Número de Refrendos">{proveedor?.numeroRefrendo?.join(', ') ?? 'No disponible'}</Descriptions.Item>
+          </Descriptions>
+          <Descriptions title="Historial de Documentos" >
+            <Descriptions.Item label="Total de documentos">{proveedor?.documentos?.length}</Descriptions.Item>
+            <Descriptions.Item label="Documentos">{proveedor?.documentos?.join(', ') ?? 'No disponible'}</Descriptions.Item>
+          </Descriptions>
+          <Descriptions title="Representantes y Contactos" >
+            <Descriptions.Item label="Representantes">{proveedor?.representante?.join(', ') ?? 'No disponible'}</Descriptions.Item>
+            <Descriptions.Item label="Contactos">{proveedor?.contactos?.join(', ') ?? 'No disponible'}</Descriptions.Item>
+          </Descriptions>
+          <Descriptions title="Otros Datos" >
+            <Descriptions.Item label="Tipo de Proveedor">{proveedor?.tipoProveedor?.join(', ') ?? 'No disponible'}</Descriptions.Item>
+            <Descriptions.Item label="Giro Comercial">{proveedor?.girosComerciales?.join(', ') ?? 'No disponible'}</Descriptions.Item>
+          </Descriptions>
         </div>
       );
     } else {
