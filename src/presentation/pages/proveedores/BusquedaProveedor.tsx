@@ -63,6 +63,8 @@ export const BusquedaProveedor = () => {
 
   const handleSearch = ( paginacion = 1 ) => {
 
+    setLoadingLocal( true );
+
     if ( searchLastText !== searchText ){ //si son diferentes quiere decir que hay una nueva busqeuda y la paginacion empieza desde 1
       console.log("BUsqueda nueva");
       getProveedorTypeSense(searchText, searchLastText, 1, pageSize);
@@ -144,6 +146,7 @@ export const BusquedaProveedor = () => {
   })) as ColumnType<T>[]
 
   const expandedRowRender = (idProveedor: number) => {
+
     const resultado = proveedoresTs.find( el => el.proveedor.idProveedor === idProveedor );
 
     
@@ -205,9 +208,7 @@ export const BusquedaProveedor = () => {
         </div>
       );
     } else {
-      return (
-        <div></div>
-      )
+      return null; // Si se quita, al no recibir datos, los campos crecen sin control
     }
   };
 
@@ -221,9 +222,12 @@ export const BusquedaProveedor = () => {
 
   
   return (
-    <div className="bp__container">
+    <div className="bp__container d-flex flex-column pt-3 pb-3" 
+      style={{ 
+        width: '100vw'
+      }}>
 
-      <div className="d-flex justify-content-between ">
+      <div className="d-flex justify-content-between "   >
         <Button
           // onClick={handleAdd}
           type="primary"
@@ -234,7 +238,7 @@ export const BusquedaProveedor = () => {
           Nuevo
         </Button>
 
-        <div className="input-group mb-3">
+        <div className="input-group mb-3" style={{ width: 'auto'}}>
           <Input
             placeholder="Buscar..."
             value={searchText}
@@ -252,93 +256,103 @@ export const BusquedaProveedor = () => {
         </div>
       </div>
       
-      <Table 
-        // columns={columns} 
-        rowKey="idProveedor"
-        dataSource={proveedores}
-        expandable={{
-          expandedRowKeys,
-          onExpand: (expanded, record) => {
-            setExpandedRowKeys(expanded ? [record.idProveedor] : []);
-          },
-          expandedRowRender: (record) => (
-              expandedRowRender(record.idProveedor)
-          ),
-        }}
-        columns={[
-          ...(mergedColumns || []),
-          {
-            title: "Acciones",
-            key: "actions",
-            align: "center",
-            width: "150px",
-            render: (_: any, record: T) => {
-              return (
-                <>
-                  <Tooltip title="Editar elemento">
-                    <Button
-                      type="link"
-                    >
-                      <span className="material-symbols-outlined">
-                        edit_square
-                      </span>
-                    </Button>
-                  </Tooltip>
-                  {record["activo"] ? (
-                    <Popconfirm
-                      title="¿Seguro que quieres eliminar esta fila?"
-                    >
-                      <Tooltip title="Eliminar elemento">
-                        <Button 
-                          type="link" 
-                          danger
-                        >
-                          <span className="material-symbols-outlined">
-                            delete
-                          </span>
-                        </Button>
-                      </Tooltip>
-                    </Popconfirm>
-                  ) : (
-                    <Popconfirm
-                      title="¿Seguro que quieres restaurar este elemento?"
-                      // onConfirm={() => handleReactive(record.key)}
-                    >
-                      <Tooltip title="Reactivar elemento">
-                        <Button 
-                          type="link"
-                        >
-                          <span className="material-symbols-outlined">
-                            refresh
-                          </span>
-                        </Button>
-                      </Tooltip>
-                    </Popconfirm>
-                  )}
-                </>
-              );
+      <div className="tablaAnt flex-grow-1" 
+        style={{ 
+          width: "100%", 
+          maxWidth: '100vw', 
+          height: '100%', 
+          overflow: 'auto' 
+        }}>
+        <Table 
+          // columns={columns} 
+          rowKey="idProveedor"
+          dataSource={proveedores.length > 0 ? proveedores: []}
+          expandable={{
+            expandedRowKeys,
+            onExpand: (expanded, record) => {
+              setExpandedRowKeys(expanded ? [record.idProveedor] : []);
             },
-          },
-        ]}
-        pagination={{ 
-          // pageSize: 20,
-          total: total,
-          pageSize: pageSize,
-          defaultPageSize: pageSize,
-          pageSizeOptions: ['10', '20', '50', '100', '250'],
-          showSizeChanger: true,
-          showTotal: (totalS, range) => `Mostrando ${range[0]}-${range[1]} de ${total}`,
-          onChange: (pagina, pageSize) => {
-            handleSearch( pagina );
-          },
-          onShowSizeChange: (current, size) => {
-            setPageSize( size );
-            handleSearch();
-          },
-        }}
-        scroll={{ y: "40vh" }}
-        loading = { loadingLocal }
-      />
+            expandedRowRender: (record) => (
+                expandedRowRender(record.idProveedor)
+            ),
+          }}
+          columns={[
+            ...(mergedColumns || []),
+            {
+              title: "Acciones",
+              key: "actions",
+              align: "center",
+              width: "150px",
+              render: (_: any, record: T) => {
+                return (
+                  <>
+                    <Tooltip title="Editar elemento">
+                      <Button
+                        type="link"
+                      >
+                        <span className="material-symbols-outlined">
+                          edit_square
+                        </span>
+                      </Button>
+                    </Tooltip>
+                    {record["activo"] ? (
+                      <Popconfirm
+                        title="¿Seguro que quieres eliminar esta fila?"
+                      >
+                        <Tooltip title="Eliminar elemento">
+                          <Button 
+                            type="link" 
+                            danger
+                          >
+                            <span className="material-symbols-outlined">
+                              delete
+                            </span>
+                          </Button>
+                        </Tooltip>
+                      </Popconfirm>
+                    ) : (
+                      <Popconfirm
+                        title="¿Seguro que quieres restaurar este elemento?"
+                        // onConfirm={() => handleReactive(record.key)}
+                      >
+                        <Tooltip title="Reactivar elemento">
+                          <Button 
+                            type="link"
+                          >
+                            <span className="material-symbols-outlined">
+                              refresh
+                            </span>
+                          </Button>
+                        </Tooltip>
+                      </Popconfirm>
+                    )}
+                  </>
+                );
+              },
+            },
+          ]}
+          pagination={{ 
+            // pageSize: 20,
+            total: total,
+            pageSize: pageSize,
+            defaultPageSize: pageSize,
+            pageSizeOptions: ['10', '20', '50', '100', '250'],
+            showSizeChanger: true,
+            showTotal: (totalS, range) => `Mostrando ${range[0]}-${range[1]} de ${total}`,
+            onChange: (pagina, pageSize) => {
+              handleSearch( pagina );
+            },
+            onShowSizeChange: (current, size) => {
+              setPageSize( size );
+              handleSearch();
+            },
+          }}
+          scroll={{ y: "50vh", x: "90%" }}
+          style={{  width: '100%' }}
+          loading = { loadingLocal }
+          locale={{ emptyText: 'No hay datos disponibles' }}
+        />
+      </div>
 
       
     </div>

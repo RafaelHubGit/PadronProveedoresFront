@@ -109,7 +109,7 @@ export const CatalogosPage = () => {
         keyField: "idTipoContacto",
       },
       {
-        label: 'Tipo Entidad',
+        label: 'Tipo Persona Juridica',
         storeHook: () => tipoEntidad as ICatTipoEntidad[],
         loadingHook: () => loadingTipoEntidad ?? false,
         fetchData: () => getTipoEntidad(),
