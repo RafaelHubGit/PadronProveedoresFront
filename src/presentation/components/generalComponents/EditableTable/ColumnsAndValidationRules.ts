@@ -116,11 +116,19 @@ export const getColumnsAndValidationRules = (config: ITableConfig) => {
 
   const validationRules = Object.keys(config).reduce((acc, key) => {
     const column = config[key];
-    acc[key] = {
-      required: column.validation.required, 
-      type: column.validation.type ,
-      label: column.validation.label,
-    };
+    if (column.validation) {
+      acc[key] = {
+        required: column.validation.required,
+        type: column.validation.type,
+        label: column.validation.label,
+      };
+    } else {
+      acc[key] = {
+        required: false,
+        type: 'string',
+        label: key,
+      };
+    }
     return acc;
   }, {} as { [key: string]: IValidationConfig });
 

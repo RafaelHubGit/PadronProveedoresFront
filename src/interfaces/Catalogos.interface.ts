@@ -69,3 +69,16 @@ export interface ICatTipoProveedor {
     fechaModificacion: Date | null;
     activo: boolean;
 }
+
+export interface ICatMatrizArticulosFracciones {
+    idMatrizArticulosFracciones: number;
+    articulo: number;
+    fraccion: string;
+    descripcion: string;
+    nota: string;
+    idUsuarioAlta: number;
+    fechaAlta: Date;
+    idUsuarioModificacion: number | null;
+    fechaModificacion: Date | null;
+    activo: boolean;
+  }

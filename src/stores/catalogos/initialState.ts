@@ -10,7 +10,7 @@
 //     Activo: false,
 // };
 
-import { IGiroComercial, ICatEstatusProveedorBloqueado, ICatEstratificacion, ICatGenero, ICatTipoContacto, ICatTipoEntidad, ICatTipoProveedor } from "../../interfaces/Catalogos.interface";
+import { IGiroComercial, ICatEstatusProveedorBloqueado, ICatEstratificacion, ICatGenero, ICatTipoContacto, ICatTipoEntidad, ICatTipoProveedor, ICatMatrizArticulosFracciones } from "../../interfaces/Catalogos.interface";
 
 export const giroComercialInit: IGiroComercial[] = [
     {
@@ -96,3 +96,18 @@ export const catTipoProveedorInit: ICatTipoProveedor[] = [
       activo: true,
     }
   ];
+
+export const catMatrizArticulosFraccionesInit: ICatMatrizArticulosFracciones[] = [
+    {
+      idMatrizArticulosFracciones: 0,
+      articulo: 0,
+      fraccion: '',
+      descripcion: '',
+      nota: '',
+      idUsuarioAlta: 0,
+      fechaAlta: new Date(),
+      idUsuarioModificacion: null,
+      fechaModificacion: null,
+      activo: true,
+    }
+];

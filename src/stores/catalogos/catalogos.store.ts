@@ -1,8 +1,8 @@
 import { StateCreator, create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { CatalogosAPI } from "../../services/catalogosAPI.service";
-import { IGiroComercial, ICatEstatusProveedorBloqueado, ICatEstratificacion, ICatGenero, ICatTipoContacto, ICatTipoEntidad, ICatTipoProveedor } from "../../interfaces/Catalogos.interface";
-import { giroComercialInit, estratificacionInit, estatusProveedorBloqueadoInit, catGeneroInit, catTipoContactoInit, catTipoEntidadInit, catTipoProveedorInit } from "./initialState";
+import { IGiroComercial, ICatEstatusProveedorBloqueado, ICatEstratificacion, ICatGenero, ICatTipoContacto, ICatTipoEntidad, ICatTipoProveedor, ICatMatrizArticulosFracciones } from "../../interfaces/Catalogos.interface";
+import { giroComercialInit, estratificacionInit, estatusProveedorBloqueadoInit, catGeneroInit, catTipoContactoInit, catTipoEntidadInit, catTipoProveedorInit, catMatrizArticulosFraccionesInit } from "./initialState";
 
 
 interface CatalogosState {
@@ -14,6 +14,7 @@ interface CatalogosState {
     tipoContacto: ICatTipoContacto[];
     tipoEntidad: ICatTipoEntidad[];
     tipoProveedor: ICatTipoProveedor[];
+    matrizArticulosFracciones: ICatMatrizArticulosFracciones[];
 
 
     
@@ -24,6 +25,7 @@ interface CatalogosState {
     getTipoContacto: () => Promise<void>;
     getTipoEntidad: () => Promise<void>;
     getTipoProveedor: () => Promise<void>;
+    getMatrizArticulosFracciones: () => Promise<void>;
 
     
 
@@ -38,6 +40,7 @@ interface CatalogosState {
       tipoContacto?: boolean;
       tipoEntidad?: boolean;
       tipoProveedor?: boolean;
+      matrizArticulosFracciones?: boolean;
     };
 
 
@@ -55,6 +58,7 @@ const storeCatalogos: StateCreator<CatalogosState> = ( set, get ) => ({
   tipoContacto: catTipoContactoInit,
   tipoEntidad: catTipoEntidadInit,
   tipoProveedor: catTipoProveedorInit,
+  matrizArticulosFracciones: catMatrizArticulosFraccionesInit,
 
 
 
@@ -67,7 +71,7 @@ const storeCatalogos: StateCreator<CatalogosState> = ( set, get ) => ({
     tipoContacto: false,
     tipoEntidad: false,
     loadingTipoProveedor: false,
-
+    matrizArticulosFracciones: false,
   },
 
   obtenerCatalogo: async <T>(catalogo: string, propiedad: keyof CatalogosState) => {
@@ -116,6 +120,10 @@ const storeCatalogos: StateCreator<CatalogosState> = ( set, get ) => ({
 
   getTipoProveedor: async () => {
     await get().obtenerCatalogo<ICatTipoProveedor>("CatTipoProveedor", "tipoProveedor");
+  },
+
+  getMatrizArticulosFracciones: async () => {
+    await get().obtenerCatalogo<ICatMatrizArticulosFracciones>("CatMatrizArticulosFracciones", "matrizArticulosFracciones");
   },
 
 });

@@ -26,6 +26,7 @@ export const EditableTable = <T extends { key: React.Key; activo?: boolean }>({
   const searchTimeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
+    console.log("DATASOURCE, ", dataSource);
     setData(dataSource ?? []);
   }, [dataSource])
 

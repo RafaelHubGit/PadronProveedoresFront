@@ -1,7 +1,7 @@
 import type { CollapseProps } from 'antd';
 import { Collapse } from "antd";
 
-import { IGiroComercial, ICatEstatusProveedorBloqueado, ICatEstratificacion, ICatGenero, ICatTipoContacto, ICatTipoEntidad, ICatTipoProveedor } from "../../../interfaces/Catalogos.interface";
+import { IGiroComercial, ICatEstatusProveedorBloqueado, ICatEstratificacion, ICatGenero, ICatTipoContacto, ICatTipoEntidad, ICatTipoProveedor, ICatMatrizArticulosFracciones } from "../../../interfaces/Catalogos.interface";
 import { useCatalogosStore } from '../../../stores/catalogos/catalogos.store';
 import { CatalogosAPI } from '../../../services/catalogosAPI.service';
 import { GiroComercialTableConfig  } from '../../components/Catalogos/GiroComercialTableConfig';
@@ -13,6 +13,8 @@ import { GeneroTableConfig } from '../../components/Catalogos/GeneroTableConfig'
 import { TipoContactoTableConfig } from '../../components/Catalogos/TipoContactoTableConfig';
 import { TipoEntidadTableConfig } from '../../components/Catalogos/TipoEntidadTableConfig';
 import { TipoProveedorTableConfig } from '../../components/Catalogos/TipoProveedorTableConfig';
+import { catMatrizArticulosFraccionesInit } from '../../../stores/catalogos/initialState';
+import { MatrizArticulosFraccionesTableConfig } from '../../components/Catalogos/MatrizArticulosFraccionesTableConfig';
 
 
 
@@ -29,6 +31,7 @@ type CatalogoConfig<T> = {
 
 export const CatalogosPage = () => {
 
+  const articulosFracciones = useCatalogosStore( state => state.matrizArticulosFracciones);
   const estatusProveedorBloqueado = useCatalogosStore( state => state.estatusProveedorBloqueado);
   const girosComerciales = useCatalogosStore( state => state.girosComerciales);
   const estratificacion = useCatalogosStore( state => state.estratificacion);
@@ -40,6 +43,7 @@ export const CatalogosPage = () => {
 
 
 
+  const loadingArticulosFracciones = useCatalogosStore(state => state.loading.matrizArticulosFracciones);
   const loadingEstatusProveedorBloqueado = useCatalogosStore(state => state.loading.estatusProveedorBloqueado);
   const loadingGirosComerciales = useCatalogosStore(state => state.loading.estatusProveedorBloqueado);
   const loadingEstratificacion = useCatalogosStore(state => state.loading.estratificacion);
@@ -51,6 +55,7 @@ export const CatalogosPage = () => {
 
 
 
+  const getArticulosFracciones = useCatalogosStore( state => state.getMatrizArticulosFracciones );
   const getEstatusProveedorBloqueado = useCatalogosStore( state => state.getAllEstatusProveedorBloqueado );
   const getGirosComerciales = useCatalogosStore( state => state.getAllGirosComerciales );
   const getEstratificacion = useCatalogosStore( state => state.getEstratificacion );
@@ -63,6 +68,15 @@ export const CatalogosPage = () => {
 
 
   const catalogosConfig: CatalogoConfig<any>[] = [
+    {
+      label: 'Artículos y Fracciones',
+      storeHook: () => articulosFracciones as ICatMatrizArticulosFracciones[],
+      loadingHook: () => loadingArticulosFracciones ?? false,
+      fetchData: () => getArticulosFracciones(),
+      apiService: new CatalogosAPI<ICatMatrizArticulosFracciones>("CatMatrizArticulosFracciones"),
+      tableConfig: MatrizArticulosFraccionesTableConfig,
+      keyField: "idMatrizArticulosFracciones",
+    },
     {
       label: 'Estatus Proveedor Bloqueado',
       storeHook: () => estatusProveedorBloqueado as ICatEstatusProveedorBloqueado[],
