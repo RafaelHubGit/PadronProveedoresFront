@@ -81,4 +81,16 @@ export interface ICatMatrizArticulosFracciones {
     idUsuarioModificacion: number | null;
     fechaModificacion: Date | null;
     activo: boolean;
-  }
+}
+
+export interface ICatTipoDocumento {
+    idTipoDocumento: number;
+    nombre: string;
+    descripcion: string | null;
+    idUsuarioAlta: number;
+    fechaAlta: Date;
+    idUsuarioModificacion: number | null;
+    fechaModificacion: Date | null;
+    activo: boolean;
+}
+  

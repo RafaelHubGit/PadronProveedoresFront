@@ -1,7 +1,7 @@
 import type { CollapseProps } from 'antd';
 import { Collapse } from "antd";
 
-import { IGiroComercial, ICatEstatusProveedorBloqueado, ICatEstratificacion, ICatGenero, ICatTipoContacto, ICatTipoEntidad, ICatTipoProveedor, ICatMatrizArticulosFracciones } from "../../../interfaces/Catalogos.interface";
+import { IGiroComercial, ICatEstatusProveedorBloqueado, ICatEstratificacion, ICatGenero, ICatTipoContacto, ICatTipoEntidad, ICatTipoProveedor, ICatMatrizArticulosFracciones, ICatTipoDocumento } from "../../../interfaces/Catalogos.interface";
 import { useCatalogosStore } from '../../../stores/catalogos/catalogos.store';
 import { CatalogosAPI } from '../../../services/catalogosAPI.service';
 import { GiroComercialTableConfig  } from '../../components/Catalogos/GiroComercialTableConfig';
@@ -13,20 +13,13 @@ import { GeneroTableConfig } from '../../components/Catalogos/GeneroTableConfig'
 import { TipoContactoTableConfig } from '../../components/Catalogos/TipoContactoTableConfig';
 import { TipoEntidadTableConfig } from '../../components/Catalogos/TipoEntidadTableConfig';
 import { TipoProveedorTableConfig } from '../../components/Catalogos/TipoProveedorTableConfig';
-import { catMatrizArticulosFraccionesInit } from '../../../stores/catalogos/initialState';
 import { MatrizArticulosFraccionesTableConfig } from '../../components/Catalogos/MatrizArticulosFraccionesTableConfig';
+import { ICatalogoConfig } from '../../../interfaces/CatalogoConfig.interfaces';
+import { CatTipoDocumentoTableConfig } from '../../components/Catalogos/CatTipoDocumentoTableConfig';
 
 
 
-type CatalogoConfig<T> = {
-  label: string;
-  storeHook: () => T[];
-  loadingHook: () => boolean;
-  fetchData: () => void;
-  apiService: CatalogosAPI<T>;
-  tableConfig: any;
-  keyField: string;
-};
+
 
 
 export const CatalogosPage = () => {
@@ -39,6 +32,8 @@ export const CatalogosPage = () => {
   const tipoContacto = useCatalogosStore(state => state.tipoContacto);
   const tipoEntidad = useCatalogosStore(state => state.tipoEntidad);
   const tipoProveedor = useCatalogosStore(state => state.tipoProveedor);
+  const tipoDocumento = useCatalogosStore(state => state.tipoDocumento);
+
 
 
 
@@ -51,6 +46,8 @@ export const CatalogosPage = () => {
   const loadingTipoContacto = useCatalogosStore(state => state.loading.tipoContacto);
   const loadingTipoEntidad = useCatalogosStore(state => state.loading.tipoEntidad);
   const loadingTipoProveedor = useCatalogosStore(state => state.loading.tipoProveedor);
+  const loadingTipoDocumento = useCatalogosStore(state => state.loading.tipoDocumento);
+
 
 
 
@@ -63,11 +60,13 @@ export const CatalogosPage = () => {
   const getTipoContacto = useCatalogosStore(state => state.getTipoContacto);
   const getTipoEntidad = useCatalogosStore(state => state.getTipoEntidad);
   const getTipoProveedor = useCatalogosStore(state => state.getTipoProveedor);
+  const getTipoDocumento = useCatalogosStore(state => state.getTipoDocumento);
 
 
 
 
-  const catalogosConfig: CatalogoConfig<any>[] = [
+
+  const catalogosConfig: ICatalogoConfig<any>[] = [
     {
       label: 'Artículos y Fracciones',
       storeHook: () => articulosFracciones as ICatMatrizArticulosFracciones[],
@@ -121,6 +120,15 @@ export const CatalogosPage = () => {
         apiService: new CatalogosAPI<ICatTipoContacto>("CatTipoContacto"),
         tableConfig: TipoContactoTableConfig,
         keyField: "idTipoContacto",
+      },
+      {
+        label: 'Tipo Documento',
+        storeHook: () => tipoDocumento as ICatTipoDocumento[],
+        loadingHook: () => loadingTipoDocumento ?? false,
+        fetchData: () => getTipoDocumento(),
+        apiService: new CatalogosAPI<ICatTipoDocumento>("CatTipoDocumento"),
+        tableConfig: CatTipoDocumentoTableConfig,
+        keyField: "idTipoDocumento",
       },
       {
         label: 'Tipo Persona Juridica',

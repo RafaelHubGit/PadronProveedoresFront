@@ -1,8 +1,8 @@
 import { StateCreator, create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { CatalogosAPI } from "../../services/catalogosAPI.service";
-import { IGiroComercial, ICatEstatusProveedorBloqueado, ICatEstratificacion, ICatGenero, ICatTipoContacto, ICatTipoEntidad, ICatTipoProveedor, ICatMatrizArticulosFracciones } from "../../interfaces/Catalogos.interface";
-import { giroComercialInit, estratificacionInit, estatusProveedorBloqueadoInit, catGeneroInit, catTipoContactoInit, catTipoEntidadInit, catTipoProveedorInit, catMatrizArticulosFraccionesInit } from "./initialState";
+import { IGiroComercial, ICatEstatusProveedorBloqueado, ICatEstratificacion, ICatGenero, ICatTipoContacto, ICatTipoEntidad, ICatTipoProveedor, ICatMatrizArticulosFracciones, ICatTipoDocumento } from "../../interfaces/Catalogos.interface";
+import { giroComercialInit, estratificacionInit, estatusProveedorBloqueadoInit, catGeneroInit, catTipoContactoInit, catTipoEntidadInit, catTipoProveedorInit, catMatrizArticulosFraccionesInit, catTipoDocumentoInit } from "./initialState";
 
 
 interface CatalogosState {
@@ -15,6 +15,7 @@ interface CatalogosState {
     tipoEntidad: ICatTipoEntidad[];
     tipoProveedor: ICatTipoProveedor[];
     matrizArticulosFracciones: ICatMatrizArticulosFracciones[];
+    tipoDocumento: ICatTipoDocumento[];
 
 
     
@@ -26,6 +27,8 @@ interface CatalogosState {
     getTipoEntidad: () => Promise<void>;
     getTipoProveedor: () => Promise<void>;
     getMatrizArticulosFracciones: () => Promise<void>;
+    getTipoDocumento: () => Promise<void>;
+
 
     
 
@@ -41,6 +44,8 @@ interface CatalogosState {
       tipoEntidad?: boolean;
       tipoProveedor?: boolean;
       matrizArticulosFracciones?: boolean;
+      tipoDocumento?: boolean;
+
     };
 
 
@@ -59,6 +64,8 @@ const storeCatalogos: StateCreator<CatalogosState> = ( set, get ) => ({
   tipoEntidad: catTipoEntidadInit,
   tipoProveedor: catTipoProveedorInit,
   matrizArticulosFracciones: catMatrizArticulosFraccionesInit,
+  tipoDocumento: catTipoDocumentoInit,
+
 
 
 
@@ -72,6 +79,8 @@ const storeCatalogos: StateCreator<CatalogosState> = ( set, get ) => ({
     tipoEntidad: false,
     loadingTipoProveedor: false,
     matrizArticulosFracciones: false,
+    tipoDocumento: false,
+
   },
 
   obtenerCatalogo: async <T>(catalogo: string, propiedad: keyof CatalogosState) => {
@@ -124,6 +133,10 @@ const storeCatalogos: StateCreator<CatalogosState> = ( set, get ) => ({
 
   getMatrizArticulosFracciones: async () => {
     await get().obtenerCatalogo<ICatMatrizArticulosFracciones>("CatMatrizArticulosFracciones", "matrizArticulosFracciones");
+  },
+
+  getTipoDocumento: async () => {
+    await get().obtenerCatalogo<ICatTipoDocumento>("CatTipoDocumento", "tipoDocumento");
   },
 
 });
