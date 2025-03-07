@@ -93,6 +93,7 @@ export const CatalogoGenericoComponent = <T extends { [key: string]: any }>({
             onSave={handleTableChange}
             validationRules={validationRules}
             loading={loading || loadingCatalogo}
+            tableConfig={ tableConfig }
         />
     </div>
   )

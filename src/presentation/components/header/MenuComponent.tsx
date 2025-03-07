@@ -11,6 +11,7 @@ const menuConfig = [
     type: "dropdown",
     submenu: [
       { key: "3-1", label: "Catálogos", link: "catalogos" },
+      { key: "3-1", label: "Configuración de Reportes", link: "configuracionReportes" },
     ],
   }  
 ];

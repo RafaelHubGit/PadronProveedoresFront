@@ -1,4 +1,7 @@
-const baseUrl = `https://localhost:7015/api`;
+// const baseUrl = `https://localhost:7015/api`;
+const baseUrl = import.meta.env.VITE_BACK_API_URL;
+
+console.log("EL URL : ", baseUrl);
 
 export class CatalogosAPI<T> {
   private endpoint: string;

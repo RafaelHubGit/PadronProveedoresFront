@@ -6,6 +6,8 @@ import { EditableCell } from "./EditableCell";
 import { EditableTableProps } from "../../../../interfaces/EditableTable.interface";
 import { removeAccents } from "../../../../helpers";
 import dayjs from "dayjs";
+import ModalComponent from "../ModalComponent";
+import FormComponent from "../FormComponent";
 
 
 export const EditableTable = <T extends { key: React.Key; activo?: boolean }>({
@@ -13,7 +15,8 @@ export const EditableTable = <T extends { key: React.Key; activo?: boolean }>({
   dataSource,
   onSave,
   validationRules,
-  loading
+  loading,
+  tableConfig
 }: EditableTableProps<T>) => {
   const [form] = Form.useForm();
   const [data, setData] = useState<T[]>(dataSource ?? []);
@@ -22,6 +25,8 @@ export const EditableTable = <T extends { key: React.Key; activo?: boolean }>({
   const [searchText, setSearchText] = useState("");
   const [loadingLocal, setLoadingLocal] = useState(false);
   const isEditing = (record: T) => record.key === editingKey;  
+
+  const [isOpenModal, setIsOpenModal] = useState( false );
 
   const searchTimeoutRef = useRef<number | null>(null);
 
@@ -86,6 +91,10 @@ export const EditableTable = <T extends { key: React.Key; activo?: boolean }>({
   };
 
   const handleAdd = () => {
+
+    setIsOpenModal( true );
+    return
+
     form.resetFields(); // Limpia los dalos del formulario
 
     const newKey = Date.now(); // Genera una clave única antes de usarla
@@ -327,6 +336,16 @@ export const EditableTable = <T extends { key: React.Key; activo?: boolean }>({
           />
         </Form>
       </ConfigProvider>
+
+      <ModalComponent
+        isOpen = { isOpenModal }
+        title = "hola"
+        setIsOpen={ setIsOpenModal }
+      >
+        <FormComponent
+          config={ tableConfig }
+        />
+      </ModalComponent>
     </div>
 
   );

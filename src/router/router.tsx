@@ -7,6 +7,7 @@ import { ProveedorLayout } from "../presentation/layouts/ProveedorLayout";
 import { ProveedorActivoLayout } from "../presentation/components/proveedorComponents/ProveedorActivoLayout";
 import { ProveedorRefrendosComponent } from "../presentation/components/proveedorComponents/ProveedorRefrendosComponent";
 import { CatalogosPage } from "../presentation/pages/Catalogos/CatalogosPage";
+import { ConfiguracionDeReportesPage } from "../presentation/pages/Configuracion/ConfiguracionDeReportesPage";
 
 // Definir las rutas del detalle de proveedor
 const proveedorDetalleRoutes = [
@@ -52,6 +53,10 @@ const inicioRoutes = [
   {
     path: 'catalogos',
     element: <CatalogosPage />,
+  },
+  {
+    path: 'configuracionReportes',
+    element: <ConfiguracionDeReportesPage/>  
   }
 ];
 

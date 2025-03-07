@@ -41,7 +41,8 @@ export interface IColumnConfig {
      * Función para personalizar cómo se renderiza el valor de cada celda en la columna.
      * Puedes usar esto para formatear los valores, agregar etiquetas u otros componentes.
      */
-    render?: (value: any) => JSX.Element;
+    // render?: (value: any) => JSX.Element;
+    render?: (text: any, record: any) => React.ReactElement;
 
     /**
      * Define si la columna es editable por el usuario.

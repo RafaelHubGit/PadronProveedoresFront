@@ -1,0 +1,44 @@
+id: 
+tag: BTN_AGREGAR_PROVEEDOR_001
+name: Agregar nuevo proveedor
+description: Botón para agregar un nuevo proveedor
+permission_type: BTN (botón) ???
+module: PROVEEDORES (módulo de proveedores) ??? 
+action: AGREGAR (acción de agregar) ???
+
+
+Paso 1: Crear el estado de permisos en Zustand
+
+Paso 2: Crear la función validarPermiso
+Luego, debes crear la función validarPermiso que tome un idPermiso como argumento y devuelva un booleano que indica si el permiso está activo o no. Puedes hacer esto creando un archivo llamado permisos.js en tu carpeta de utilidades:
+Jsx
+// permisos.js
+import usePermisos from './permisos';
+
+const validarPermiso = (idPermiso) => {
+  const { permisos } = usePermisos();
+  return permisos.some((permiso) => permiso.id === idPermiso && permiso.activo);
+};
+
+export default validarPermiso;
+Paso 3: Utilizar la función validarPermiso en un componente
+Finalmente, debes utilizar la función validarPermiso en un componente para determinar si debe mostrar un elemento o no. Puedes hacer esto de la siguiente manera:
+Jsx
+// MiComponente.js
+import React from 'react';
+import validarPermiso from './permisos';
+
+const MiComponente = () => {
+  const permisoAgregarProveedor = validarPermiso('BTN_AGREGAR_PROVEEDOR_001');
+
+  return (
+    <div>
+      {permisoAgregarProveedor ? (
+        <button>Agregar proveedor</button>
+      ) : (
+        <p>No tienes permiso para agregar proveedores</p>
+      )}
+    </div>
+  );
+};
+Espero que esto te ayude a entender mejor cómo implementar la función validarPermiso y utilizarla en un componente. ¡Si tienes alguna pregunta o necesitas más ayuda, no dudes en preguntar!
